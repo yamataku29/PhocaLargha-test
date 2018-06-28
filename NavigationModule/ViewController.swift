@@ -12,8 +12,10 @@ class ViewController: UIViewController {
 
     @IBAction func popButton(_ sender: UIButton) {
         let popNavi = PopNavi()
+        popNavi.setBaseView(sizeType: .medium)
+        popNavi.isDismissibleForTap = true
         popNavi.modalPresentationStyle = .overCurrentContext
-        present(popNavi, animated: true, completion: nil)
+        present(popNavi, animated: false, completion: nil)
     }
 
     override func viewDidLoad() {
