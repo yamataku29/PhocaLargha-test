@@ -15,6 +15,25 @@ enum BaseViewSize {
     case large
 }
 
+struct BaseViewComponent {
+    // NOTE: デザイン重要 & 用途を意識したコンポーネント及びデザインにする
+    // TODO: サイズによって最適なコンポーネントのレイアウトが変わるため、それぞれのサイズごとのデザインを作成してから着手する
+    /* 用途
+     - ウォークスルー
+       - 画像
+       - テキスト(TOP/CENTER/BOTTOM)
+       - ボタン(縦/横)
+     - アラート
+       - テキスト
+       - ボタン(縦/横)
+     - テキスト入力
+       - テキスト
+       - テキストフィールド
+       - ボタン(縦/横)
+       - テキスト&テキストフィールドのセット(縦並び/横並び)
+     */
+}
+
 class BaseView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)

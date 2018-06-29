@@ -106,7 +106,7 @@ private extension PopNavi {
     }
     func generateBaseView() {
         contentViews.forEach { baseView in
-            // TODO: BaseViewにどのコンポーネントが必要かは別途検討する
+
             let button = UIButton()
             button.frame.size = CGSize(width: 80, height: 30)
             button.center = CGPoint(x: baseView.bounds.midX, y: baseView.bounds.midY)
@@ -121,6 +121,7 @@ private extension PopNavi {
                 let centerX = scrollView.getContainerViewCenterX(index: index!)
                 baseView.center = CGPoint(x: centerX, y: UIScreen.main.bounds.midY)
             }
+            baseView.layer.cornerRadius = configureOption.baseViewCornerRadius
             scrollView.addSubview(baseView)
         }
     }
