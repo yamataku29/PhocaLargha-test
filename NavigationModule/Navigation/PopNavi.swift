@@ -18,9 +18,14 @@ open class PopNavi: UIViewController {
     var backgroundColor = UIColor.black
     var backgroundAlpha: CGFloat = 0.5
     var isDimissAnimation: Bool = false
+    var isDismissibleForTap: Bool = false {
+        didSet {
+            scrollView.addGestureRecognizer(viewTapGesture)
+        }
+    }
     private var contentViews: [BaseView] = []
     private let scrollView = PagingScrollView()
-
+    private var backgroundView: UIView!
     override open func viewDidLoad() {
         super.viewDidLoad()
         configureBackgroundView()
@@ -59,16 +64,25 @@ private extension PopNavi {
         return UIScreen.main.bounds
     }
     var viewTapGesture: UITapGestureRecognizer {
-        return UITapGestureRecognizer(target: self, action:#selector(dismissPopNavi))
+        let gesture = UITapGestureRecognizer(target: self, action:#selector(dismissPopNavi))
+        gesture.cancelsTouchesInView = false
+        gesture.delegate = self
+        return gesture
     }
     @objc func dismissPopNavi() {
         dismiss(animated: isDimissAnimation, completion: nil)
     }
     func configureBackgroundView() {
-        let backgroundView = UIView(frame: UIScreen.main.bounds)
+        backgroundView = UIView(frame: UIScreen.main.bounds)
         backgroundView.backgroundColor = backgroundColor
         backgroundView.alpha = backgroundAlpha
         view.addSubview(backgroundView)
+    }
+}
+
+extension PopNavi: UIGestureRecognizerDelegate {
+    public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        return (touch.view == gestureRecognizer.view) ? true : false
     }
 }
 
