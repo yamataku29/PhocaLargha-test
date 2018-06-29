@@ -41,12 +41,23 @@ open class PopNavi: UIViewController {
         scrollView.frame.size = CGSize(width: scrollViewWidth, height: UIScreen.main.bounds.height)
         view.addSubview(scrollView)
 
+        // これはsetBaseViewが呼ばれる度に実行してはいけないので、showDialog的なメソッドの中で呼ぶことにする
         contentViews.forEach { baseView in
+            let button = UIButton()
+            button.frame.size = CGSize(width: 80, height: 30)
+            button.center = CGPoint(x: baseView.bounds.midX, y: baseView.bounds.midY)
+            button.backgroundColor = UIColor.red
+            button.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
+            baseView.addSubview(button)
+
             let index = contentViews.index(of: baseView)
             let centerX = scrollView.getContainerViewCenterX(to: index!+1, screenWidth: UIScreen.main.bounds.width)
             baseView.center = CGPoint(x: centerX, y: UIScreen.main.bounds.midY)
             scrollView.addSubview(baseView)
         }
+    }
+    @objc func didTapButton() {
+        print("🍺Button did tapped!!!")
     }
 }
 extension PopNavi: AccessibleProperty {}
