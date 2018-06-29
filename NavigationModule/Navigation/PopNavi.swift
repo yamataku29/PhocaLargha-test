@@ -14,10 +14,12 @@ enum BaseViewSize {
     case large
 }
 
-open class PopNavi: UIViewController {
+open class PopNavi: UIViewController, AppearAnimation, DimissAnimation {
     var backgroundColor = UIColor.black
     var backgroundAlpha: CGFloat = 0.5
     var isDimissAnimation: Bool = false
+    var isBackgroundFadeIn: Bool = true
+    var firstBaseView: FirstBaseView?
     var isDismissibleForTap: Bool = false {
         didSet {
             scrollView.addGestureRecognizer(viewTapGesture)
@@ -25,23 +27,32 @@ open class PopNavi: UIViewController {
     }
     private var contentViews: [BaseView] = []
     private let scrollView = PagingScrollView()
-    private var backgroundView: UIView!
+    private var backgroundView: UIView?
+    private var duration = 0.7
     override open func viewDidLoad() {
         super.viewDidLoad()
-        configureBackgroundView()
     }
 
     func setBaseView(sizeType: BaseViewSize, baseViewColor: UIColor = .white) {
-        let baseView = BaseView(sizeType: .medium, with: view.frame.size, centerPosition: view.center)
-        baseView.backgroundColor = baseViewColor
-        contentViews.append(baseView)
+        if (firstBaseView == nil) {
+            firstBaseView = FirstBaseView(sizeType: .medium, with: view.frame.size, centerPosition: view.center)
+            firstBaseView?.backgroundColor = baseViewColor
+            contentViews.append(firstBaseView!)
+        } else {
+            let baseView = BaseView(sizeType: .medium, with: view.frame.size, centerPosition: view.center)
+            baseView.backgroundColor = baseViewColor
+            contentViews.append(baseView)
+        }
+        configureNavigation()
+    }
+    func configureNavigation() {
+        configureBackgroundView()
 
         let scrollViewWidth = CGFloat(contentViews.count) * UIScreen.main.bounds.width
         scrollView.frame.origin = CGPoint(x: 0, y: 0)
         scrollView.frame.size = CGSize(width: scrollViewWidth, height: UIScreen.main.bounds.height)
         view.addSubview(scrollView)
 
-        // これはsetBaseViewが呼ばれる度に実行してはいけないので、showDialog的なメソッドの中で呼ぶことにする
         contentViews.forEach { baseView in
             let button = UIButton()
             button.frame.size = CGSize(width: 80, height: 30)
@@ -59,35 +70,51 @@ open class PopNavi: UIViewController {
     @objc func didTapButton() {
         print("🍺Button did tapped!!!")
     }
+    func slideUp(duration: TimeInterval) {
+        self.duration = duration
+        guard let presentViewController = UIApplication.shared.keyWindow?.rootViewController else { return }
+        var frontmostViewController = UIViewController()
+        if presentViewController.childViewControllers.count == 0 {
+            frontmostViewController = presentViewController
+        } else {
+            frontmostViewController = presentViewController
+                .childViewControllers.first(where: { $0.presentingViewController == nil })!
+        }
+        modalPresentationStyle = .overCurrentContext
+        frontmostViewController.present(self, animated: false, completion: { [weak self] in
+            guard let `self` = self else { return }
+            self.slideUp(with: self.firstBaseView, backgroundView: self.backgroundView,
+                isBackgroundFadeIn: self.isBackgroundFadeIn, duration: self.duration)
+        })
+    }
 }
+
+extension PopNavi: DimissAnimationDelegate {
+    func endDimissAnimation() {
+        dismiss(animated: false, completion: nil)
+    }
+}
+
 extension PopNavi: AccessibleProperty {}
-extension PopNavi: AppearAnimation {
-    func slideUp() {
-    }
-    func slideUpWithBound() {
-    }
-    func centerZoomIn() {
-    }
-}
 
 private extension PopNavi {
     var screenFrame: CGRect {
         return UIScreen.main.bounds
     }
     var viewTapGesture: UITapGestureRecognizer {
-        let gesture = UITapGestureRecognizer(target: self, action:#selector(dismissPopNavi))
+        let gesture = UITapGestureRecognizer(target: self, action:#selector(dismissWithAnimation))
         gesture.cancelsTouchesInView = false
         gesture.delegate = self
         return gesture
     }
-    @objc func dismissPopNavi() {
-        dismiss(animated: isDimissAnimation, completion: nil)
+    @objc func dismissWithAnimation() {
+        slideDown(with: firstBaseView, backgroundView: backgroundView, duration: duration, delegate: self)
     }
     func configureBackgroundView() {
         backgroundView = UIView(frame: UIScreen.main.bounds)
-        backgroundView.backgroundColor = backgroundColor
-        backgroundView.alpha = backgroundAlpha
-        view.addSubview(backgroundView)
+        backgroundView!.backgroundColor = backgroundColor
+        backgroundView!.alpha = backgroundAlpha
+        view.addSubview(backgroundView!)
     }
 }
 
@@ -100,7 +127,6 @@ extension PopNavi: UIGestureRecognizerDelegate {
 class BaseView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setUp()
     }
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -122,6 +148,8 @@ class BaseView: UIView {
         center = centerPosition
     }
 }
+
+class FirstBaseView: BaseView {}
 
 class PagingScrollView: UIScrollView {
     func getContainerViewCenterX(to index: Int, screenWidth: CGFloat) -> CGFloat {

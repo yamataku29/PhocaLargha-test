@@ -12,10 +12,16 @@ class ViewController: UIViewController {
 
     @IBAction func popButton(_ sender: UIButton) {
         let popNavi = PopNavi()
-        popNavi.setBaseView(sizeType: .medium)
+        popNavi.setBaseView(sizeType: .small)
         popNavi.isDismissibleForTap = true
-        popNavi.modalPresentationStyle = .overCurrentContext
-        present(popNavi, animated: false, completion: nil)
+        popNavi.slideUp(duration: 0.5)
+        // NOTE: いくつかやっておくべきことをメモしておく
+        /*
+         - showDialogでもなんでもいいが、ダイアログを表示する際のメソッドの引数にBaseViewクラスをもたせる
+         - BaseViewクラス内にダイアログのサイズやコンポーネントを指定する引数をもたせる
+         - .isDismissibleForTapなどの個別の設定項目はPopNavi.configureなどのstructプロパティとして切り出す
+         - アニメーションのテンプレート指定はPopNavi.animationStyleなどのstructプロパティとして切り出す
+         */
     }
 
     override func viewDidLoad() {
