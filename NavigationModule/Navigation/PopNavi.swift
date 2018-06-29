@@ -97,22 +97,6 @@ extension PopNavi: UIGestureRecognizerDelegate {
     }
 }
 
-extension UIView {
-    func resizeFrame(type: BaseViewSize, point: CGPoint, superViewSize: CGSize) {
-        switch type {
-        case .small:
-            self.frame = CGRect(x: point.x, y: point.y,
-                          width: superViewSize.width/1.5, height: superViewSize.height/2.5)
-        case .medium:
-            self.frame = CGRect(x: point.x, y: point.y,
-                          width: superViewSize.width/1.3, height: superViewSize.height/2)
-        case .large:
-            self.frame = CGRect(x: point.x, y: point.y,
-                          width: superViewSize.width/1.1, height: superViewSize.height/1.5)
-        }
-    }
-}
-
 class BaseView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -136,8 +120,6 @@ class BaseView: UIView {
         }
         self.init(frame: baseViewFrame)
         center = centerPosition
-    }
-    func setUp() {
     }
 }
 
