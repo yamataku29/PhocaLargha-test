@@ -16,15 +16,13 @@ class ViewController: UIViewController {
         popNavi.setBaseView(sizeType: .small)
         popNavi.setBaseView(sizeType: .small)
         popNavi.configureNavigation()
-        popNavi.isDismissibleForTap = true
+        popNavi.configureOption.isDismissibleForTap = true
         popNavi.slideUp(duration: 0.5)
         // TODO: 今後やること
         /*
-         - ダイアログを複数用意した場合のページング処理を追加
          - PageControlコンポーネントを追加するオプションを実装
          - showDialogでもなんでもいいが、ダイアログを表示する際のメソッドの引数にBaseViewクラスをもたせる
          - BaseViewクラス内にダイアログのサイズやコンポーネントを指定する引数をもたせる
-         - .isDismissibleForTapなどの個別の設定項目はPopNavi.configureなどのstructプロパティとして切り出す
          - アニメーションのテンプレート指定はPopNavi.animationStyleなどのstructプロパティとして切り出す
          */
     }

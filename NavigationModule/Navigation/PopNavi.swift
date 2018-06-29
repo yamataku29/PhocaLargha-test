@@ -9,20 +9,14 @@
 import UIKit
 
 open class PopNavi: UIViewController, AppearAnimation, DimissAnimation {
-    var backgroundColor = UIColor.black
-    var backgroundAlpha: CGFloat = 0.5
-    var isDimissAnimation: Bool = false
-    var isBackgroundFadeIn: Bool = true
-    var firstBaseView: FirstBaseView?
-    var isDismissibleForTap: Bool = false {
-        didSet {
-            scrollView.addGestureRecognizer(viewTapGesture)
-        }
-    }
+    var configureOption = ConfigureOption()
+
+    private var firstBaseView: FirstBaseView?
     private var contentViews: [BaseView] = []
     private let scrollView = PagingScrollView()
     private var backgroundView: UIView?
     private var duration = 0.7
+
     override open func viewDidLoad() {
         super.viewDidLoad()
         configureBackgroundView()
@@ -40,6 +34,10 @@ open class PopNavi: UIViewController, AppearAnimation, DimissAnimation {
         }
     }
     func configureNavigation() {
+        if configureOption.isDismissibleForTap {
+            scrollView.addGestureRecognizer(viewTapGesture)
+        }
+
         let scrollViewWidth = CGFloat(contentViews.count) * UIScreen.main.bounds.width
         scrollView.showsVerticalScrollIndicator = false
         scrollView.showsHorizontalScrollIndicator = false
@@ -85,7 +83,7 @@ open class PopNavi: UIViewController, AppearAnimation, DimissAnimation {
             guard let `self` = self else { return }
             self.scrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: false)
             self.slideUp(with: self.firstBaseView, backgroundView: self.backgroundView,
-                isBackgroundFadeIn: self.isBackgroundFadeIn, duration: self.duration)
+                isBackgroundFadeIn: self.configureOption.isBackgroundFadeIn, duration: self.duration)
         })
     }
 }
@@ -105,8 +103,8 @@ private extension PopNavi {
     }
     func configureBackgroundView() {
         backgroundView = UIView(frame: UIScreen.main.bounds)
-        backgroundView!.backgroundColor = backgroundColor
-        backgroundView!.alpha = backgroundAlpha
+        backgroundView!.backgroundColor = configureOption.backgroundColor
+        backgroundView!.alpha = configureOption.backgroundAlpha
         view.addSubview(backgroundView!)
     }
 }
@@ -116,8 +114,6 @@ extension PopNavi: DimissAnimationDelegate {
         dismiss(animated: false, completion: nil)
     }
 }
-
-extension PopNavi: AccessibleProperty {}
 
 extension PopNavi: UIGestureRecognizerDelegate {
     public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {

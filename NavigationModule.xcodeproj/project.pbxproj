@@ -19,6 +19,7 @@
 		F09E8E4D20E4BE31008C6D79 /* AccessibleProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = F09E8E4C20E4BE31008C6D79 /* AccessibleProperty.swift */; };
 		F09E8E4F20E6202D008C6D79 /* PagingScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F09E8E4E20E6202D008C6D79 /* PagingScrollView.swift */; };
 		F09E8E5120E62068008C6D79 /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F09E8E5020E62068008C6D79 /* BaseView.swift */; };
+		F09E8E5320E622AB008C6D79 /* ConfigureOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = F09E8E5220E622AB008C6D79 /* ConfigureOption.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +58,7 @@
 		F09E8E4C20E4BE31008C6D79 /* AccessibleProperty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibleProperty.swift; sourceTree = "<group>"; };
 		F09E8E4E20E6202D008C6D79 /* PagingScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagingScrollView.swift; sourceTree = "<group>"; };
 		F09E8E5020E62068008C6D79 /* BaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseView.swift; sourceTree = "<group>"; };
+		F09E8E5220E622AB008C6D79 /* ConfigureOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigureOption.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -144,6 +146,7 @@
 				F09E8E4C20E4BE31008C6D79 /* AccessibleProperty.swift */,
 				F09E8E4E20E6202D008C6D79 /* PagingScrollView.swift */,
 				F09E8E5020E62068008C6D79 /* BaseView.swift */,
+				F09E8E5220E622AB008C6D79 /* ConfigureOption.swift */,
 			);
 			path = Navigation;
 			sourceTree = "<group>";
@@ -285,6 +288,7 @@
 				F09E8E4D20E4BE31008C6D79 /* AccessibleProperty.swift in Sources */,
 				F09E8E4F20E6202D008C6D79 /* PagingScrollView.swift in Sources */,
 				F002C47A20E49F5F00241450 /* PopNavi.swift in Sources */,
+				F09E8E5320E622AB008C6D79 /* ConfigureOption.swift in Sources */,
 				F09E8E4B20E4BA98008C6D79 /* AppearAnimation.swift in Sources */,
 				F09E8E5120E62068008C6D79 /* BaseView.swift in Sources */,
 				F002C44D20E49E6F00241450 /* ViewController.swift in Sources */,
