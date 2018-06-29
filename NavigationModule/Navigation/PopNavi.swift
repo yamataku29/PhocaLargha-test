@@ -52,6 +52,7 @@ open class PopNavi: UIViewController, AppearAnimation, DimissAnimation {
         scrollView.bounds.size = UIScreen.main.bounds.size
         scrollView.contentSize = CGSize(width: scrollViewWidth, height: UIScreen.main.bounds.height)
         scrollView.center = view.center
+        scrollView.isPagingEnabled = true
         view.addSubview(scrollView)
 
         contentViews.forEach { baseView in
