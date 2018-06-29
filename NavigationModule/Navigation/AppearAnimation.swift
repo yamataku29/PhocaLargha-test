@@ -20,7 +20,7 @@ protocol DimissAnimation:  class{
 }
 
 protocol DimissAnimationDelegate {
-    func endDimissAnimation()
+    func endDismissAnimation()
 }
 
 extension DimissAnimation where Self: UIViewController {
@@ -34,7 +34,7 @@ extension DimissAnimation where Self: UIViewController {
                         backgroundView?.alpha = 0
                         dialog?.frame.origin.y = UIScreen.main.bounds.height
         }, completion: { _ in
-            delegate?.endDimissAnimation()
+            delegate?.endDismissAnimation()
         })
     }
 }

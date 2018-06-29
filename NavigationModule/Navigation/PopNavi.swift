@@ -31,6 +31,7 @@ open class PopNavi: UIViewController, AppearAnimation, DimissAnimation {
     private var duration = 0.7
     override open func viewDidLoad() {
         super.viewDidLoad()
+        configureBackgroundView()
     }
 
     func setBaseView(sizeType: BaseViewSize, baseViewColor: UIColor = .white) {
@@ -43,14 +44,14 @@ open class PopNavi: UIViewController, AppearAnimation, DimissAnimation {
             baseView.backgroundColor = baseViewColor
             contentViews.append(baseView)
         }
-        configureNavigation()
     }
     func configureNavigation() {
-        configureBackgroundView()
-
         let scrollViewWidth = CGFloat(contentViews.count) * UIScreen.main.bounds.width
-        scrollView.frame.origin = CGPoint(x: 0, y: 0)
-        scrollView.frame.size = CGSize(width: scrollViewWidth, height: UIScreen.main.bounds.height)
+        scrollView.showsVerticalScrollIndicator = false
+        scrollView.showsHorizontalScrollIndicator = false
+        scrollView.bounds.size = UIScreen.main.bounds.size
+        scrollView.contentSize = CGSize(width: scrollViewWidth, height: UIScreen.main.bounds.height)
+        scrollView.center = view.center
         view.addSubview(scrollView)
 
         contentViews.forEach { baseView in
@@ -61,14 +62,18 @@ open class PopNavi: UIViewController, AppearAnimation, DimissAnimation {
             button.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
             baseView.addSubview(button)
 
-            let index = contentViews.index(of: baseView)
-            let centerX = scrollView.getContainerViewCenterX(to: index!+1, screenWidth: UIScreen.main.bounds.width)
-            baseView.center = CGPoint(x: centerX, y: UIScreen.main.bounds.midY)
+            if (baseView is FirstBaseView) {
+                baseView.center = CGPoint(x: UIScreen.main.bounds.midX, y: UIScreen.main.bounds.midY)
+            } else {
+                let index = contentViews.index(of: baseView)
+                let centerX = scrollView.getContainerViewCenterX(index: index!)
+                baseView.center = CGPoint(x: centerX, y: UIScreen.main.bounds.midY)
+            }
             scrollView.addSubview(baseView)
         }
     }
     @objc func didTapButton() {
-        print("🍺Button did tapped!!!")
+        scrollView.scrollToNext()
     }
     func slideUp(duration: TimeInterval) {
         self.duration = duration
@@ -83,6 +88,7 @@ open class PopNavi: UIViewController, AppearAnimation, DimissAnimation {
         modalPresentationStyle = .overCurrentContext
         frontmostViewController.present(self, animated: false, completion: { [weak self] in
             guard let `self` = self else { return }
+            self.scrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: false)
             self.slideUp(with: self.firstBaseView, backgroundView: self.backgroundView,
                 isBackgroundFadeIn: self.isBackgroundFadeIn, duration: self.duration)
         })
@@ -90,7 +96,7 @@ open class PopNavi: UIViewController, AppearAnimation, DimissAnimation {
 }
 
 extension PopNavi: DimissAnimationDelegate {
-    func endDimissAnimation() {
+    func endDismissAnimation() {
         dismiss(animated: false, completion: nil)
     }
 }
@@ -152,17 +158,20 @@ class BaseView: UIView {
 class FirstBaseView: BaseView {}
 
 class PagingScrollView: UIScrollView {
-    func getContainerViewCenterX(to index: Int, screenWidth: CGFloat) -> CGFloat {
-        let maxIndex = Int(frame.width/screenWidth)
-        let scrollToPositionX = frame.width * CGFloat(index/maxIndex)
-        return scrollToPositionX/2
+    var currentPageIndex: Int {
+        let index = contentOffset.x/frame.width
+        return Int(index)
     }
-    func scroll(viewFrame: CGRect, currentX: CGFloat) {
-        let currentIndex = Int(viewFrame.width/currentX)
-        let offset = CGPoint(x: pagingOffsetX(to: currentIndex+1, pagingWidth: viewFrame.width), y: 0)
+    func getContainerViewCenterX(index: Int) -> CGFloat {
+        let firstBaseViewCenterX = UIScreen.main.bounds.midX
+        let scrollToPositionX = CGFloat(index) * UIScreen.main.bounds.width
+        return scrollToPositionX+firstBaseViewCenterX
+    }
+    func scrollToNext() {
+        let offset = CGPoint(x: pagingOffsetX(to: currentPageIndex+1, width: UIScreen.main.bounds.width), y: 0)
         setContentOffset(offset, animated: true)
     }
-    private func pagingOffsetX(to index: Int, pagingWidth: CGFloat) -> CGFloat {
-        return CGFloat(index)*pagingWidth
+    private func pagingOffsetX(to index: Int, width: CGFloat) -> CGFloat {
+        return CGFloat(index)*width
     }
 }
