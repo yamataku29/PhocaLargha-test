@@ -22,6 +22,7 @@ class BaseView: UIView {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    var sizeType: BaseViewSize!
     convenience init(sizeType: BaseViewSize, with superViewSize: CGSize, centerPosition: CGPoint) {
         var baseViewFrame = CGRect()
         switch sizeType {
@@ -36,6 +37,7 @@ class BaseView: UIView {
                                    width: superViewSize.width/1.1, height: superViewSize.height/1.5)
         }
         self.init(frame: baseViewFrame)
+        self.sizeType = sizeType
         center = centerPosition
     }
 }

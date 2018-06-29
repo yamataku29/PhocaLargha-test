@@ -11,59 +11,52 @@ import UIKit
 open class PopNavi: UIViewController, AppearAnimation, DimissAnimation {
     var configureOption = ConfigureOption()
 
-    private var firstBaseView: FirstBaseView?
     private var contentViews: [BaseView] = []
-    private let scrollView = PagingScrollView()
+    private var firstBaseView: FirstBaseView?
     private var backgroundView: UIView?
+    private let scrollView = PagingScrollView()
+    private let pageControl = UIPageControl()
     private var duration = 0.7
 
+    // MARK: - Lifecycle method
     override open func viewDidLoad() {
         super.viewDidLoad()
         configureBackgroundView()
     }
+    override open func viewWillLayoutSubviews() {
+        if configureOption.isDismissibleForTap {
+            scrollView.addGestureRecognizer(viewTapGesture)
+        }
+        if configureOption.shouldDisplayPageControl {
+            if let presentingViewController = self.presentingViewController {
+                let largeBaseViewHeight = presentingViewController.view.bounds.height/1.5
+                pageControl.bounds.size = CGSize(width: 30, height: 15)
+                pageControl.center.y = UIScreen.main.bounds.midY + largeBaseViewHeight/2 + 20
+                pageControl.center.x = UIScreen.main.bounds.midX
+                pageControl.numberOfPages = contentViews.count
+                pageControl.currentPageIndicatorTintColor = UIColor.orange
+                pageControl.currentPage = 0
+                pageControl.isUserInteractionEnabled = false
+                view.addSubview(pageControl)
+            }
+        }
+    }
 
+    // MARK: - Piublic property
     func setBaseView(sizeType: BaseViewSize, baseViewColor: UIColor = .white) {
         if (firstBaseView == nil) {
-            firstBaseView = FirstBaseView(sizeType: .medium, with: view.frame.size, centerPosition: view.center)
+            firstBaseView = FirstBaseView(sizeType: sizeType, with: view.frame.size, centerPosition: view.center)
             firstBaseView?.backgroundColor = baseViewColor
             contentViews.append(firstBaseView!)
         } else {
-            let baseView = BaseView(sizeType: .medium, with: view.frame.size, centerPosition: view.center)
+            let baseView = BaseView(sizeType: sizeType, with: view.frame.size, centerPosition: view.center)
             baseView.backgroundColor = baseViewColor
             contentViews.append(baseView)
         }
     }
     func configureNavigation() {
-        if configureOption.isDismissibleForTap {
-            scrollView.addGestureRecognizer(viewTapGesture)
-        }
-
-        let scrollViewWidth = CGFloat(contentViews.count) * UIScreen.main.bounds.width
-        scrollView.showsVerticalScrollIndicator = false
-        scrollView.showsHorizontalScrollIndicator = false
-        scrollView.bounds.size = UIScreen.main.bounds.size
-        scrollView.contentSize = CGSize(width: scrollViewWidth, height: UIScreen.main.bounds.height)
-        scrollView.center = view.center
-        scrollView.isPagingEnabled = true
-        view.addSubview(scrollView)
-
-        contentViews.forEach { baseView in
-            let button = UIButton()
-            button.frame.size = CGSize(width: 80, height: 30)
-            button.center = CGPoint(x: baseView.bounds.midX, y: baseView.bounds.midY)
-            button.backgroundColor = UIColor.red
-            button.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
-            baseView.addSubview(button)
-
-            if (baseView is FirstBaseView) {
-                baseView.center = CGPoint(x: UIScreen.main.bounds.midX, y: UIScreen.main.bounds.midY)
-            } else {
-                let index = contentViews.index(of: baseView)
-                let centerX = scrollView.getContainerViewCenterX(index: index!)
-                baseView.center = CGPoint(x: centerX, y: UIScreen.main.bounds.midY)
-            }
-            scrollView.addSubview(baseView)
-        }
+        generateScrollView()
+        generateBaseView()
     }
     @objc func didTapButton() {
         scrollView.scrollToNext()
@@ -88,6 +81,7 @@ open class PopNavi: UIViewController, AppearAnimation, DimissAnimation {
     }
 }
 
+// MARK: - Private property
 private extension PopNavi {
     var screenFrame: CGRect {
         return UIScreen.main.bounds
@@ -98,8 +92,37 @@ private extension PopNavi {
         gesture.delegate = self
         return gesture
     }
-    @objc func dismissWithAnimation() {
-        slideDown(with: firstBaseView, backgroundView: backgroundView, duration: duration, delegate: self)
+    func generateScrollView() {
+        let scrollViewWidth = CGFloat(contentViews.count) * UIScreen.main.bounds.width
+        scrollView.showsVerticalScrollIndicator = false
+        scrollView.showsHorizontalScrollIndicator = false
+        scrollView.bounds.size = UIScreen.main.bounds.size
+        scrollView.contentSize = CGSize(width: scrollViewWidth, height: UIScreen.main.bounds.height)
+        scrollView.center = view.center
+        scrollView.isPagingEnabled = true
+        scrollView.delegate = self
+
+        view.addSubview(scrollView)
+    }
+    func generateBaseView() {
+        contentViews.forEach { baseView in
+            // TODO: BaseViewにどのコンポーネントが必要かは別途検討する
+            let button = UIButton()
+            button.frame.size = CGSize(width: 80, height: 30)
+            button.center = CGPoint(x: baseView.bounds.midX, y: baseView.bounds.midY)
+            button.backgroundColor = UIColor.red
+            button.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
+            baseView.addSubview(button)
+
+            if (baseView is FirstBaseView) {
+                baseView.center = CGPoint(x: UIScreen.main.bounds.midX, y: UIScreen.main.bounds.midY)
+            } else {
+                let index = contentViews.index(of: baseView)
+                let centerX = scrollView.getContainerViewCenterX(index: index!)
+                baseView.center = CGPoint(x: centerX, y: UIScreen.main.bounds.midY)
+            }
+            scrollView.addSubview(baseView)
+        }
     }
     func configureBackgroundView() {
         backgroundView = UIView(frame: UIScreen.main.bounds)
@@ -107,8 +130,12 @@ private extension PopNavi {
         backgroundView!.alpha = configureOption.backgroundAlpha
         view.addSubview(backgroundView!)
     }
+    @objc func dismissWithAnimation() {
+        slideDown(with: firstBaseView, backgroundView: backgroundView, duration: duration, delegate: self)
+    }
 }
 
+// MARK: - Delegate extensions
 extension PopNavi: DimissAnimationDelegate {
     func endDismissAnimation() {
         dismiss(animated: false, completion: nil)
@@ -118,5 +145,13 @@ extension PopNavi: DimissAnimationDelegate {
 extension PopNavi: UIGestureRecognizerDelegate {
     public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
         return (touch.view == gestureRecognizer.view) ? true : false
+    }
+}
+
+extension PopNavi: UIScrollViewDelegate {
+    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if configureOption.shouldDisplayPageControl {
+            pageControl.currentPage = (scrollView as! PagingScrollView).currentPageIndex
+        }
     }
 }

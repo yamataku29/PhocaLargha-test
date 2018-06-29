@@ -15,16 +15,19 @@ struct ConfigureOption {
     var isDimissAnimation: Bool
     var isBackgroundFadeIn: Bool
     var isDismissibleForTap: Bool
+    var shouldDisplayPageControl: Bool
 
     init(backgroundColor: UIColor = UIColor.black,
          backgroundAlpha: CGFloat = 0.5,
          isDimissAnimation: Bool = false,
          isBackgroundFadeIn: Bool = true,
-         isDismissibleForTap: Bool = false) {
+         isDismissibleForTap: Bool = true,
+         shouldDisplayPageControl: Bool = true) {
         self.backgroundColor = backgroundColor
         self.backgroundAlpha = backgroundAlpha
         self.isDimissAnimation = isDimissAnimation
         self.isBackgroundFadeIn = isBackgroundFadeIn
         self.isDismissibleForTap = isDismissibleForTap
+        self.shouldDisplayPageControl = shouldDisplayPageControl
     }
 }
