@@ -14,6 +14,7 @@ class ViewController: UIViewController {
         let popNavi = PopNavi()
         popNavi.setBaseView(sizeType: .small)
         popNavi.setBaseView(sizeType: .small)
+        popNavi.setBaseView(sizeType: .small)
         popNavi.configureNavigation()
         popNavi.isDismissibleForTap = true
         popNavi.slideUp(duration: 0.5)

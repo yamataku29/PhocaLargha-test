@@ -8,12 +8,6 @@
 
 import UIKit
 
-enum BaseViewSize {
-    case small
-    case medium
-    case large
-}
-
 open class PopNavi: UIViewController, AppearAnimation, DimissAnimation {
     var backgroundColor = UIColor.black
     var backgroundAlpha: CGFloat = 0.5
@@ -96,14 +90,6 @@ open class PopNavi: UIViewController, AppearAnimation, DimissAnimation {
     }
 }
 
-extension PopNavi: DimissAnimationDelegate {
-    func endDismissAnimation() {
-        dismiss(animated: false, completion: nil)
-    }
-}
-
-extension PopNavi: AccessibleProperty {}
-
 private extension PopNavi {
     var screenFrame: CGRect {
         return UIScreen.main.bounds
@@ -125,54 +111,16 @@ private extension PopNavi {
     }
 }
 
+extension PopNavi: DimissAnimationDelegate {
+    func endDismissAnimation() {
+        dismiss(animated: false, completion: nil)
+    }
+}
+
+extension PopNavi: AccessibleProperty {}
+
 extension PopNavi: UIGestureRecognizerDelegate {
     public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
         return (touch.view == gestureRecognizer.view) ? true : false
-    }
-}
-
-class BaseView: UIView {
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-    }
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    convenience init(sizeType: BaseViewSize, with superViewSize: CGSize, centerPosition: CGPoint) {
-        var baseViewFrame = CGRect()
-        switch sizeType {
-        case .small:
-            baseViewFrame = CGRect(x: 0, y: 0,
-                                   width: superViewSize.width/1.5, height: superViewSize.height/2.5)
-        case .medium:
-            baseViewFrame = CGRect(x: 0, y: 0,
-                                   width: superViewSize.width/1.3, height: superViewSize.height/2)
-        case .large:
-            baseViewFrame = CGRect(x: 0, y: 0,
-                                   width: superViewSize.width/1.1, height: superViewSize.height/1.5)
-        }
-        self.init(frame: baseViewFrame)
-        center = centerPosition
-    }
-}
-
-class FirstBaseView: BaseView {}
-
-class PagingScrollView: UIScrollView {
-    var currentPageIndex: Int {
-        let index = contentOffset.x/frame.width
-        return Int(index)
-    }
-    func getContainerViewCenterX(index: Int) -> CGFloat {
-        let firstBaseViewCenterX = UIScreen.main.bounds.midX
-        let scrollToPositionX = CGFloat(index) * UIScreen.main.bounds.width
-        return scrollToPositionX+firstBaseViewCenterX
-    }
-    func scrollToNext() {
-        let offset = CGPoint(x: pagingOffsetX(to: currentPageIndex+1, width: UIScreen.main.bounds.width), y: 0)
-        setContentOffset(offset, animated: true)
-    }
-    private func pagingOffsetX(to index: Int, width: CGFloat) -> CGFloat {
-        return CGFloat(index)*width
     }
 }
