@@ -12,6 +12,7 @@ class ViewController: UIViewController {
 
     @IBAction func popButton(_ sender: UIButton) {
         let popNavi = PopNavi()
+        popNavi.configureOption.shouldDisplayFooterView = true
         popNavi.setBaseView(type: .walkthrough)
         popNavi.setBaseView(type: .alert)
         popNavi.setBaseView(type: .dialog)

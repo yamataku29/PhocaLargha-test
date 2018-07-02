@@ -17,6 +17,7 @@ struct ConfigureOption {
     var isDismissibleForTap: Bool
     var shouldDisplayPageControl: Bool
     var baseViewCornerRadius: CGFloat
+    var shouldDisplayFooterView: Bool
 
     init(backgroundColor: UIColor = UIColor.black,
          backgroundAlpha: CGFloat = 0.5,
@@ -24,7 +25,8 @@ struct ConfigureOption {
          isBackgroundFadeIn: Bool = true,
          isDismissibleForTap: Bool = true,
          shouldDisplayPageControl: Bool = true,
-         baseViewCornerRadius: CGFloat = 10) {
+         baseViewCornerRadius: CGFloat = 10,
+         shouldDisplayFooterView: Bool = false) {
         self.backgroundColor = backgroundColor
         self.backgroundAlpha = backgroundAlpha
         self.isDimissAnimation = isDimissAnimation
@@ -32,5 +34,6 @@ struct ConfigureOption {
         self.isDismissibleForTap = isDismissibleForTap
         self.shouldDisplayPageControl = shouldDisplayPageControl
         self.baseViewCornerRadius = baseViewCornerRadius
+        self.shouldDisplayFooterView = shouldDisplayFooterView
     }
 }

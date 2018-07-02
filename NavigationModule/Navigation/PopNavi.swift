@@ -57,6 +57,7 @@ open class PopNavi: UIViewController, AppearAnimation, DimissAnimation {
     func configureNavigation() {
         generateScrollView()
         generateBaseView()
+        reflectConfigureOptionsIfNeeded()
     }
     @objc func didTapButton() {
         scrollView.scrollToNext()
@@ -91,6 +92,15 @@ private extension PopNavi {
         gesture.cancelsTouchesInView = false
         gesture.delegate = self
         return gesture
+    }
+    func reflectConfigureOptionsIfNeeded() {
+        if configureOption.shouldDisplayFooterView {
+            contentViews.forEach { baseView in
+                if baseView.subviews.first(where: { $0 is FooterView }) == nil {
+                    baseView.setFooterView(cornerRadius: configureOption.baseViewCornerRadius)
+                }
+            }
+        }
     }
     func generateScrollView() {
         let scrollViewWidth = CGFloat(contentViews.count) * UIScreen.main.bounds.width
