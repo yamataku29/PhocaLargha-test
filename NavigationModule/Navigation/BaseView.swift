@@ -28,6 +28,15 @@ struct BaseViewComponent {
      ### アンケート
      - タイトル(背景カラー指定可能) + メッセージ + テキストフィールド + ボタン(1-2個)
      */
+
+    var cornerRadius: CGFloat
+    var shouldDisplayFooterView: Bool
+
+    init(cornerRadius: CGFloat = 10,
+         shouldDisplayFooterView: Bool = true) {
+        self.cornerRadius = cornerRadius
+        self.shouldDisplayFooterView = shouldDisplayFooterView
+    }
 }
 
 class BaseView: UIView {

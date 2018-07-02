@@ -12,10 +12,10 @@ class ViewController: UIViewController {
 
     @IBAction func popButton(_ sender: UIButton) {
         let popNavi = PopNavi()
-        popNavi.configureOption.shouldDisplayFooterView = true
-        popNavi.setBaseView(type: .walkthrough)
-        popNavi.setBaseView(type: .alert)
-        popNavi.setBaseView(type: .dialog)
+        let baseViewComponent = BaseViewComponent()
+        popNavi.setBaseView(type: .walkthrough, baseViewComponent: baseViewComponent)
+        popNavi.setBaseView(type: .alert, baseViewComponent: baseViewComponent)
+        popNavi.setBaseView(type: .dialog, baseViewComponent: baseViewComponent)
         popNavi.configureNavigation()
         popNavi.slideUp(duration: 0.5)
         // TODO: 今後やること

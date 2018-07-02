@@ -43,21 +43,28 @@ open class PopNavi: UIViewController, AppearAnimation, DimissAnimation {
     }
 
     // MARK: - Piublic property
-    func setBaseView(type: BaseViewType, baseViewColor: UIColor = .white) {
+    func setBaseView(type: BaseViewType, baseViewComponent: BaseViewComponent, baseViewColor: UIColor = .white) {
         if (firstBaseView == nil) {
             firstBaseView = FirstBaseView(type: type, with: view.frame.size, centerPosition: view.center)
             firstBaseView?.backgroundColor = baseViewColor
+            if baseViewComponent.shouldDisplayFooterView {
+                firstBaseView?.setFooterView(cornerRadius: baseViewComponent.cornerRadius)
+            }
+            firstBaseView?.layer.cornerRadius = baseViewComponent.cornerRadius
             contentViews.append(firstBaseView!)
         } else {
             let baseView = BaseView(type: type, with: view.frame.size, centerPosition: view.center)
             baseView.backgroundColor = baseViewColor
+            if baseViewComponent.shouldDisplayFooterView {
+                baseView.setFooterView(cornerRadius: baseViewComponent.cornerRadius)
+            }
+            baseView.layer.cornerRadius = baseViewComponent.cornerRadius
             contentViews.append(baseView)
         }
     }
     func configureNavigation() {
         generateScrollView()
         generateBaseView()
-        reflectConfigureOptionsIfNeeded()
     }
     @objc func didTapButton() {
         scrollView.scrollToNext()
@@ -93,15 +100,6 @@ private extension PopNavi {
         gesture.delegate = self
         return gesture
     }
-    func reflectConfigureOptionsIfNeeded() {
-        if configureOption.shouldDisplayFooterView {
-            contentViews.forEach { baseView in
-                if baseView.subviews.first(where: { $0 is FooterView }) == nil {
-                    baseView.setFooterView(cornerRadius: configureOption.baseViewCornerRadius)
-                }
-            }
-        }
-    }
     func generateScrollView() {
         let scrollViewWidth = CGFloat(contentViews.count) * UIScreen.main.bounds.width
         scrollView.showsVerticalScrollIndicator = false
@@ -131,7 +129,6 @@ private extension PopNavi {
                 let centerX = scrollView.getContainerViewCenterX(index: index!)
                 baseView.center = CGPoint(x: centerX, y: UIScreen.main.bounds.midY)
             }
-            baseView.layer.cornerRadius = configureOption.baseViewCornerRadius
             scrollView.addSubview(baseView)
         }
     }
