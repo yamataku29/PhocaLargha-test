@@ -9,10 +9,10 @@
 import Foundation
 import UIKit
 
-enum BaseViewSize {
-    case small
-    case medium
-    case large
+enum BaseViewType {
+    case walkthrough
+    case alert
+    case dialog
 }
 
 struct BaseViewComponent {
@@ -37,22 +37,22 @@ class BaseView: UIView {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    var sizeType: BaseViewSize!
-    convenience init(sizeType: BaseViewSize, with superViewSize: CGSize, centerPosition: CGPoint) {
+    var type: BaseViewType!
+    convenience init(type: BaseViewType, with superViewSize: CGSize, centerPosition: CGPoint) {
         var baseViewFrame = CGRect()
-        switch sizeType {
-        case .small:
+        switch type {
+        case .dialog:
             baseViewFrame = CGRect(x: 0, y: 0,
-                                   width: superViewSize.width/1.5, height: superViewSize.height/2.5)
-        case .medium:
+                                   width: superViewSize.width/1.5, height: superViewSize.height/2.3)
+        case .alert:
             baseViewFrame = CGRect(x: 0, y: 0,
-                                   width: superViewSize.width/1.3, height: superViewSize.height/2)
-        case .large:
+                                   width: superViewSize.width/1.5, height: superViewSize.height/2)
+        case .walkthrough:
             baseViewFrame = CGRect(x: 0, y: 0,
-                                   width: superViewSize.width/1.1, height: superViewSize.height/1.5)
+                                   width: superViewSize.width/1.3, height: superViewSize.height/1.8)
         }
         self.init(frame: baseViewFrame)
-        self.sizeType = sizeType
+        self.type = type
         center = centerPosition
     }
 }

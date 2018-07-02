@@ -43,13 +43,13 @@ open class PopNavi: UIViewController, AppearAnimation, DimissAnimation {
     }
 
     // MARK: - Piublic property
-    func setBaseView(sizeType: BaseViewSize, baseViewColor: UIColor = .white) {
+    func setBaseView(type: BaseViewType, baseViewColor: UIColor = .white) {
         if (firstBaseView == nil) {
-            firstBaseView = FirstBaseView(sizeType: sizeType, with: view.frame.size, centerPosition: view.center)
+            firstBaseView = FirstBaseView(type: type, with: view.frame.size, centerPosition: view.center)
             firstBaseView?.backgroundColor = baseViewColor
             contentViews.append(firstBaseView!)
         } else {
-            let baseView = BaseView(sizeType: sizeType, with: view.frame.size, centerPosition: view.center)
+            let baseView = BaseView(type: type, with: view.frame.size, centerPosition: view.center)
             baseView.backgroundColor = baseViewColor
             contentViews.append(baseView)
         }

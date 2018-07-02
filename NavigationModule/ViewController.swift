@@ -12,9 +12,9 @@ class ViewController: UIViewController {
 
     @IBAction func popButton(_ sender: UIButton) {
         let popNavi = PopNavi()
-        popNavi.setBaseView(sizeType: .small)
-        popNavi.setBaseView(sizeType: .medium)
-        popNavi.setBaseView(sizeType: .large)
+        popNavi.setBaseView(type: .walkthrough)
+        popNavi.setBaseView(type: .alert)
+        popNavi.setBaseView(type: .dialog)
         popNavi.configureNavigation()
         popNavi.slideUp(duration: 0.5)
         // TODO: 今後やること
