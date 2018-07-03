@@ -12,6 +12,7 @@ open class PopNavi: UIViewController, AppearAnimation, DimissAnimation {
     var configureOption = ConfigureOption()
 
     private var contentViews: [BaseView] = []
+    // TODO: firstBaseViewをクラスプロパティとして定義しなくても良い設計に変更する
     private var firstBaseView: FirstBaseView?
     private var backgroundView: UIView?
     private let scrollView = PagingScrollView()
@@ -45,18 +46,27 @@ open class PopNavi: UIViewController, AppearAnimation, DimissAnimation {
     // MARK: - Piublic property
     func setBaseView(type: BaseViewType, baseViewComponent: BaseViewComponent, baseViewColor: UIColor = .white) {
         if (firstBaseView == nil) {
-            firstBaseView = FirstBaseView(type: type, with: view.frame.size, centerPosition: view.center)
-            firstBaseView?.backgroundColor = baseViewColor
+            let baseView = FirstBaseView(type: type, with: view.frame.size, centerPosition: view.center)
+            baseView.backgroundColor = baseViewColor
             if baseViewComponent.shouldDisplayFooterView {
-                firstBaseView?.setFooterView(cornerRadius: baseViewComponent.cornerRadius)
+                baseView.setFooterView(cornerRadius: baseViewComponent.cornerRadius)
             }
-            firstBaseView?.layer.cornerRadius = baseViewComponent.cornerRadius
+            if baseViewComponent.shoukdDiplayFirstFooterButton {
+                // フッターボタン追加はフッタービューの責務にした方がシンプルに実装できそう
+                baseView.setFooterButton(type: .single)
+            }
+            baseView.layer.cornerRadius = baseViewComponent.cornerRadius
+            firstBaseView = baseView
             contentViews.append(firstBaseView!)
         } else {
             let baseView = BaseView(type: type, with: view.frame.size, centerPosition: view.center)
             baseView.backgroundColor = baseViewColor
             if baseViewComponent.shouldDisplayFooterView {
                 baseView.setFooterView(cornerRadius: baseViewComponent.cornerRadius)
+            }
+            if baseViewComponent.shoukdDiplayFirstFooterButton {
+                // フッターボタン追加はフッタービューの責務にした方がシンプルに実装できそう
+                baseView.setFooterButton(type: .single)
             }
             baseView.layer.cornerRadius = baseViewComponent.cornerRadius
             contentViews.append(baseView)
@@ -114,14 +124,6 @@ private extension PopNavi {
     }
     func generateBaseView() {
         contentViews.forEach { baseView in
-
-            let button = UIButton()
-            button.frame.size = CGSize(width: 80, height: 30)
-            button.center = CGPoint(x: baseView.bounds.midX, y: baseView.bounds.midY)
-            button.backgroundColor = UIColor.red
-            button.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
-            baseView.addSubview(button)
-
             if (baseView is FirstBaseView) {
                 baseView.center = CGPoint(x: UIScreen.main.bounds.midX, y: UIScreen.main.bounds.midY)
             } else {

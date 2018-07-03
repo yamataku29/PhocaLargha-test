@@ -31,16 +31,22 @@ struct BaseViewComponent {
 
     var cornerRadius: CGFloat
     var shouldDisplayFooterView: Bool
+    var shoukdDiplayFirstFooterButton: Bool
+    var shoukdDiplaySecondFooterButton: Bool
 
     init(cornerRadius: CGFloat = 10,
-         shouldDisplayFooterView: Bool = true) {
+         shouldDisplayFooterView: Bool = true,
+         shoukdDiplayFirstFooterButton: Bool = true,
+         shoukdDiplaySecondFooterButton: Bool = false) {
         self.cornerRadius = cornerRadius
         self.shouldDisplayFooterView = shouldDisplayFooterView
+        self.shoukdDiplayFirstFooterButton = shoukdDiplayFirstFooterButton
+        self.shoukdDiplaySecondFooterButton = shoukdDiplaySecondFooterButton
     }
 }
 
 class BaseView: UIView {
-    private struct FooterViewSize {
+    struct FooterViewSize {
         var height: CGFloat = 60
         var width: CGFloat
         init(width: CGFloat) {
@@ -53,8 +59,8 @@ class BaseView: UIView {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    var footerViewSize: FooterViewSize!
     private var type: BaseViewType!
-    private var footerViewSize: FooterViewSize!
 
     convenience init(type: BaseViewType, with superViewSize: CGSize, centerPosition: CGPoint) {
         var baseViewFrame = CGRect()
@@ -81,10 +87,40 @@ class BaseView: UIView {
         footerView.setBottomRoundCorner(with: CGSize(width: cornerRadius, height: cornerRadius))
         addSubview(footerView)
     }
+    func setFooterButton(type: FooterButton.SizeType) {
+        let button = FooterButton()
+        button.setSize(type: .single)
+        button.center = CGPoint(x: bounds.midX, y: bounds.maxY-footerViewSize.height/2)
+        button.backgroundColor = UIColor.white
+        addSubview(button)
+    }
 }
 
 class FirstBaseView: BaseView {}
 class FooterView: UIView {}
+class FooterButton: UIButton {
+    enum SizeType {
+        case single
+        case double
+        var size: CGSize {
+            switch self {
+            case .single:
+                return CGSize(width: 200, height: 30)
+            case .double:
+                return CGSize(width: 100, height: 30)
+            }
+        }
+    }
+    func setSize(type: SizeType) {
+        bounds.size = type.size
+    }
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+    }
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
 
 extension UIView {
     func setBottomRoundCorner(with size: CGSize) {
