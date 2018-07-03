@@ -13,9 +13,9 @@ class ViewController: UIViewController {
     @IBAction func popButton(_ sender: UIButton) {
         let popNavi = PopNavi()
         let baseViewComponent = BaseViewComponent()
-        popNavi.setBaseView(type: .walkthrough, baseViewComponent: baseViewComponent)
-        popNavi.setBaseView(type: .alert, baseViewComponent: baseViewComponent)
-        popNavi.setBaseView(type: .dialog, baseViewComponent: baseViewComponent)
+        popNavi.setBaseView(baseViewComponent: baseViewComponent, isLastView: false)
+        popNavi.setBaseView(baseViewComponent: baseViewComponent, isLastView: false)
+        popNavi.setBaseView(baseViewComponent: baseViewComponent, isLastView: true)
         popNavi.configureNavigation()
         popNavi.slideUp(duration: 0.5)
         // TODO: 今後やること
