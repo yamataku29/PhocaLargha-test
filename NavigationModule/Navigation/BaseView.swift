@@ -83,7 +83,8 @@ class BaseView: UIView {
     func setFooterView(type: BaseViewComponent.FooterButtonType,
                        cornerRadius: CGFloat, size: CGSize, gesture: UITapGestureRecognizer?) {
         let footerViewFrame = CGRect(x: 0, y: bounds.height - size.height, width: size.width, height: size.height)
-        let footerView = FooterView(footerButtonType: type, frame: footerViewFrame, gesture: gesture)
+        let footerView = FooterView(footerButtonType: type, frame: footerViewFrame,
+                                    cornerRadius: cornerRadius, gesture: gesture)
         footerView.backgroundColor = UIColor.red
         footerView.setBottomRoundCorner(with: CGSize(width: cornerRadius, height: cornerRadius))
         addSubview(footerView)
@@ -101,19 +102,22 @@ class FooterView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     convenience init(footerButtonType: BaseViewComponent.FooterButtonType,
-                     frame: CGRect, gesture: UITapGestureRecognizer?) {
+                     frame: CGRect, cornerRadius: CGFloat, gesture: UITapGestureRecognizer?) {
         self.init(frame: frame)
-        setFooterButton(type: footerButtonType, gesture: gesture)
+        setFooterButton(type: footerButtonType, cornerRadius: cornerRadius, gesture: gesture)
     }
-    func setFooterButton(type: BaseViewComponent.FooterButtonType, gesture: UITapGestureRecognizer? = nil) {
+    func setFooterButton(type: BaseViewComponent.FooterButtonType, cornerRadius: CGFloat,
+                         gesture: UITapGestureRecognizer? = nil) {
         switch type {
         case .single:
             let buttonView = FooterButtonView()
             if let gesture = gesture {
                 buttonView.addGestureRecognizer(gesture)
             }
-            buttonView.bounds.size = CGSize(width: bounds.width-40, height: bounds.height/2)
-            buttonView.center = center
+            buttonView.bounds.size = CGSize(width: bounds.width*2/3, height: bounds.height*3/5)
+            buttonView.center = CGPoint(x: bounds.width/2, y: bounds.height/2)
+            buttonView.backgroundColor = UIColor.black
+            buttonView.layer.cornerRadius = cornerRadius
             addSubview(buttonView)
 
         case .double:
@@ -124,13 +128,18 @@ class FooterView: UIView {
             }
             leftButtonView.bounds.size = buttonSize
             leftButtonView.center = CGPoint(x: bounds.width/4, y: bounds.height/2)
+            leftButtonView.backgroundColor = UIColor.black
+            leftButtonView.layer.cornerRadius = cornerRadius
             addSubview(leftButtonView)
+
             let rightButtonView = FooterButtonView()
             if let gesture = gesture {
                 rightButtonView.addGestureRecognizer(gesture)
             }
             rightButtonView.bounds.size = buttonSize
             rightButtonView.center = CGPoint(x: bounds.width*3/4, y: bounds.height/2)
+            rightButtonView.backgroundColor = UIColor.black
+            rightButtonView.layer.cornerRadius = cornerRadius
             addSubview(rightButtonView)
 
         case .none:
