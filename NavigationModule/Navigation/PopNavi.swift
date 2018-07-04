@@ -24,7 +24,7 @@ open class PopNavi: UIViewController, AppearAnimation, DimissAnimation {
     }
     override open func viewWillLayoutSubviews() {
         if configureOption.isDismissibleForTap {
-            scrollView.addGestureRecognizer(viewTapGesture)
+            scrollView.addGestureRecognizer(dismissGesture)
         }
         if configureOption.shouldDisplayPageControl {
             if let presentingViewController = self.presentingViewController {
@@ -46,12 +46,14 @@ open class PopNavi: UIViewController, AppearAnimation, DimissAnimation {
         var baseView = BaseView()
 
         if (contentViews.isEmpty) {
-            baseView = FirstBaseView(component: baseViewComponent, with: view.bounds.size, centerPosition: view.center)
+            baseView = FirstBaseView(component: baseViewComponent, with: view.bounds.size,
+                                     centerPosition: view.center, gesture: nextGesture)
         } else if isLastView {
             baseView = LastBaseView(component: baseViewComponent, with: view.bounds.size,
-                                        centerPosition: view.center, gesture: viewTapGesture)
+                                        centerPosition: view.center, gesture: dismissGesture)
         } else {
-            baseView = BaseView(component: baseViewComponent, with: view.bounds.size, centerPosition: view.center)
+            baseView = BaseView(component: baseViewComponent, with: view.bounds.size,
+                                centerPosition: view.center, gesture: nextGesture)
         }
 
         baseView.backgroundColor = baseViewColor
@@ -61,9 +63,6 @@ open class PopNavi: UIViewController, AppearAnimation, DimissAnimation {
     func configureNavigation() {
         generateScrollView()
         generateBaseView()
-    }
-    @objc func didTapButton() {
-        scrollView.scrollToNext()
     }
     func slideUp(duration: TimeInterval) {
         self.duration = duration
@@ -90,8 +89,14 @@ private extension PopNavi {
     var screenFrame: CGRect {
         return UIScreen.main.bounds
     }
-    var viewTapGesture: UITapGestureRecognizer {
+    var dismissGesture: UITapGestureRecognizer {
         let gesture = UITapGestureRecognizer(target: self, action:#selector(dismissWithAnimation))
+        gesture.cancelsTouchesInView = false
+        gesture.delegate = self
+        return gesture
+    }
+    var nextGesture: UITapGestureRecognizer {
+        let gesture = UITapGestureRecognizer(target: self, action:#selector(didTapButton))
         gesture.cancelsTouchesInView = false
         gesture.delegate = self
         return gesture
@@ -128,6 +133,9 @@ private extension PopNavi {
     }
     @objc func dismissWithAnimation() {
         slideDown(with: contentViews, presentingView: view, duration: duration, delegate: self)
+    }
+    @objc func didTapButton() {
+        scrollView.scrollToNext()
     }
 }
 
