@@ -57,15 +57,18 @@ struct BaseViewComponent {
     var cornerRadius: CGFloat
     var shouldDisplayFooterView: Bool
     var footerButtonConfigure: FooterButtonConfigure
+    var image: UIImage?
 
     init(viewType: ViewType = .walkthrough,
          cornerRadius: CGFloat = 10,
          shouldDisplayFooterView: Bool = true,
-         footerButtonConfigure: FooterButtonConfigure) {
+         footerButtonConfigure: FooterButtonConfigure,
+         image: UIImage? = nil) {
         self.viewType = viewType
         self.cornerRadius = cornerRadius
         self.shouldDisplayFooterView = shouldDisplayFooterView
         self.footerButtonConfigure = footerButtonConfigure
+        self.image = image
     }
 }
 
@@ -93,8 +96,14 @@ class BaseView: UIView {
         self.init(frame: baseViewFrame)
         center = centerPosition
 
+        if let image = component.image {
+            setImage(with: image)
+        }
         setFooterView(type: component.footerButtonConfigure, cornerRadius: component.cornerRadius,
-                      size: CGSize(width: bounds.width, height: bounds.height/6), gesture: gesture)
+                      size: footerViewSize, gesture: gesture)
+    }
+    var footerViewSize: CGSize {
+        return CGSize(width: bounds.width, height: bounds.height/6)
     }
     func setFooterView(type: FooterButtonConfigure,
                        cornerRadius: CGFloat, size: CGSize, gesture: UITapGestureRecognizer?) {
@@ -104,6 +113,14 @@ class BaseView: UIView {
         footerView.backgroundColor = UIColor.red
         footerView.setBottomRoundCorner(with: CGSize(width: cornerRadius, height: cornerRadius))
         addSubview(footerView)
+    }
+    func setImage(with image: UIImage) {
+        let imageView = UIImageView(image:image)
+        imageView.bounds.size = CGSize(width: bounds.width, height: bounds.height-footerViewSize.height)
+        imageView.center.x = bounds.width/2
+        imageView.center.y = (bounds.height-footerViewSize.height)/2
+        imageView.contentMode = .scaleAspectFit
+        addSubview(imageView)
     }
 }
 
