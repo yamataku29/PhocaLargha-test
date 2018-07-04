@@ -15,13 +15,12 @@ class ViewController: UIViewController {
         let baseViewComponent = BaseViewComponent()
         popNavi.setBaseView(baseViewComponent: baseViewComponent, isLastView: false)
         popNavi.setBaseView(baseViewComponent: baseViewComponent, isLastView: false)
+        popNavi.setBaseView(baseViewComponent: baseViewComponent, isLastView: false)
         popNavi.setBaseView(baseViewComponent: baseViewComponent, isLastView: true)
         popNavi.configureNavigation()
         popNavi.slideUp(duration: 0.5)
         // TODO: 今後やること
         /*
-         - showDialogでもなんでもいいが、ダイアログを表示する際のメソッドの引数にBaseViewクラスをもたせる
-         - BaseViewクラス内にダイアログのサイズやコンポーネントを指定する引数をもたせる
          - アニメーションのテンプレート指定はBaseView.animationStyleなどのstructプロパティとして切り出す
          */
     }
