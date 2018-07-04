@@ -12,11 +12,14 @@ class ViewController: UIViewController {
 
     @IBAction func popButton(_ sender: UIButton) {
         let popNavi = PopNavi()
-        let baseViewComponent = BaseViewComponent()
+        let buttonConfigure = FooterButtonConfigure(type: .single, singleTitle: "NEXT")
+        let lastButtonConfigure = FooterButtonConfigure(type: .single, singleTitle: "OK")
+        let baseViewComponent = BaseViewComponent(footerButtonConfigure: buttonConfigure)
+        let lastBaseViewComponent = BaseViewComponent(footerButtonConfigure: lastButtonConfigure)
         popNavi.setBaseView(baseViewComponent: baseViewComponent, isLastView: false)
         popNavi.setBaseView(baseViewComponent: baseViewComponent, isLastView: false)
         popNavi.setBaseView(baseViewComponent: baseViewComponent, isLastView: false)
-        popNavi.setBaseView(baseViewComponent: baseViewComponent, isLastView: true)
+        popNavi.setBaseView(baseViewComponent: lastBaseViewComponent, isLastView: true)
         popNavi.configureNavigation()
         popNavi.slideUp(duration: 0.5)
         // TODO: 今後やること
