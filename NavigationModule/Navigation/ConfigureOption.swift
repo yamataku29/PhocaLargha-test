@@ -17,6 +17,7 @@ struct ConfigureOption {
     var isBackgroundFadeIn: Bool
     var isDismissibleForTap: Bool
     var shouldDisplayPageControl: Bool
+    var backgroundViewFradientType: GradientStyle
 
     init(backgroundColor: UIColor = UIColor.black,
          backgroundAlpha: CGFloat = 0.5,
@@ -24,7 +25,8 @@ struct ConfigureOption {
          isDimissAnimation: Bool = false,
          isBackgroundFadeIn: Bool = true,
          isDismissibleForTap: Bool = true,
-         shouldDisplayPageControl: Bool = true) {
+         shouldDisplayPageControl: Bool = true,
+         backgroundViewFradientType: GradientStyle = .none) {
         self.backgroundColor = backgroundColor
         self.backgroundAlpha = backgroundAlpha
         self.pageControlColor = pageControlColor
@@ -32,5 +34,6 @@ struct ConfigureOption {
         self.isBackgroundFadeIn = isBackgroundFadeIn
         self.isDismissibleForTap = isDismissibleForTap
         self.shouldDisplayPageControl = shouldDisplayPageControl
+        self.backgroundViewFradientType = backgroundViewFradientType
     }
 }

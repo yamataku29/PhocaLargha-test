@@ -15,8 +15,9 @@ class ViewController: UIViewController {
 
     @IBAction func popButton(_ sender: UIButton) {
         let popNavi = PopNavi()
-        let buttonConfigure = FooterViewConfigure(type: .single, singleButtonTitle: "NEXT")//, singleButtonTextColor: .orange)
-        let lastButtonConfigure = FooterViewConfigure(type: .single, singleButtonTitle: "OK")
+        popNavi.configureOption.backgroundViewFradientType = .lemonGrape
+        let buttonConfigure = FooterViewConfigure(type: .single, singleButtonTitle: "NEXT", singleButtonTextColor: UIColor.orange)
+        let lastButtonConfigure = FooterViewConfigure(type: .single, singleButtonTitle: "OK", singleButtonTextColor: UIColor.orange)
         let firstViewComponent = BaseViewComponent(footerViewConfigure: buttonConfigure, image: firstImage)
         let secondViewComponent = BaseViewComponent(footerViewConfigure: buttonConfigure, image: secondImage)
         let thirdViewComponent = BaseViewComponent(footerViewConfigure: lastButtonConfigure, image: thirdImage)

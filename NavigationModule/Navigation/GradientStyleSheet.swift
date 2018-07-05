@@ -21,6 +21,7 @@ enum GradientStyle {
     case lemonGrape
     case grapeAndMuscat
     case custom
+    case none
 }
 
 struct GradientStyleSheet {
@@ -126,6 +127,8 @@ extension UIView {
             gradientLayer = gradientStyleSheet.grapeAndMuscat
         case .custom:
             gradientLayer = gradientStyleSheet.custom
+        case .none:
+            break
         }
         layer.insertSublayer(gradientLayer, at: 0)
     }

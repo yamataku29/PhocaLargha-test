@@ -16,18 +16,18 @@ struct FooterViewConfigure {
         case none
     }
 
-    let type: ButtonType
-    let singleButtonTitle: String?
-    let leftButtonTitle: String?
-    let rightButtonTitle: String?
-    let singleButtonColor: UIColor?
-    let leftButtonColor: UIColor?
-    let rightButtonColor: UIColor?
-    let singleButtonTextColor: UIColor?
-    let leftButtonTextColor: UIColor?
-    let rightButtonTextColor: UIColor?
-    let backgroundColor: UIColor
-    let completion: (() -> ())?
+    var type: ButtonType
+    var singleButtonTitle: String?
+    var leftButtonTitle: String?
+    var rightButtonTitle: String?
+    var singleButtonColor: UIColor?
+    var leftButtonColor: UIColor?
+    var rightButtonColor: UIColor?
+    var singleButtonTextColor: UIColor?
+    var leftButtonTextColor: UIColor?
+    var rightButtonTextColor: UIColor?
+    var backgroundColor: UIColor
+    var completion: (() -> ())?
     init(type: ButtonType = .single,
          singleButtonTitle: String? = nil,
          leftButtonTitle: String? = nil,
@@ -83,17 +83,20 @@ struct BaseViewComponent {
     var shouldDisplayFooterView: Bool
     var footerViewConfigure: FooterViewConfigure
     var image: UIImage?
+    var baseViewColor: UIColor
 
     init(viewType: ViewType = .walkthrough,
          cornerRadius: CGFloat = 10,
          shouldDisplayFooterView: Bool = true,
          footerViewConfigure: FooterViewConfigure,
-         image: UIImage? = nil) {
+         image: UIImage? = nil,
+         baseViewColor: UIColor = .white) {
         self.viewType = viewType
         self.cornerRadius = cornerRadius
         self.shouldDisplayFooterView = shouldDisplayFooterView
         self.footerViewConfigure = footerViewConfigure
         self.image = image
+        self.baseViewColor = baseViewColor
     }
 }
 
@@ -124,6 +127,7 @@ class BaseView: UIView {
         if let image = component.image {
             setImage(with: image)
         }
+        backgroundColor = component.baseViewColor
         setFooterView(configure: component.footerViewConfigure, cornerRadius: component.cornerRadius,
                       size: footerViewSize, gesture: gesture)
     }

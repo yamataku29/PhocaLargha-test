@@ -42,7 +42,7 @@ open class PopNavi: UIViewController, AppearAnimation, DimissAnimation {
     }
 
     // MARK: - Piublic property
-    func setBaseView(baseViewComponent: BaseViewComponent, isLastView: Bool, baseViewColor: UIColor = .white) {
+    func setBaseView(baseViewComponent: BaseViewComponent, isLastView: Bool) {
         var baseView = BaseView()
 
         if (contentViews.isEmpty) {
@@ -55,17 +55,14 @@ open class PopNavi: UIViewController, AppearAnimation, DimissAnimation {
             baseView = BaseView(component: baseViewComponent, with: view.bounds.size,
                                 centerPosition: view.center, gesture: nextGesture)
         }
-
-        baseView.backgroundColor = baseViewColor
         baseView.layer.cornerRadius = baseViewComponent.cornerRadius
         contentViews.append(baseView)
     }
     func configureNavigation() {
         generateScrollView()
         generateBaseView()
-        // TODO: グラデーションが正常に動作するか確認
         if let backgroundView = backgroundView {
-            backgroundView.setGradientColor(type: .custom)
+            backgroundView.setGradientColor(type: configureOption.backgroundViewFradientType)
         }
     }
     func slideUp(duration: TimeInterval) {
