@@ -26,11 +26,21 @@
                                     <action selector="popButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="rjG-n2-B4Y"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="372-Q7-iYQ">
+                                <rect key="frame" x="143.5" y="378.5" width="88" height="30"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="BlackNavi!!!"/>
+                                <connections>
+                                    <action selector="blackNabiButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="J57-Mo-qZU"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="8dt-GF-lWL" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="Hoa-ve-Z6G"/>
                             <constraint firstItem="8dt-GF-lWL" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Hxl-fC-FsG"/>
+                            <constraint firstItem="372-Q7-iYQ" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="ZcG-aw-y8G"/>
+                            <constraint firstItem="372-Q7-iYQ" firstAttribute="top" secondItem="8dt-GF-lWL" secondAttribute="bottom" constant="30" id="qA5-T5-k1d"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>

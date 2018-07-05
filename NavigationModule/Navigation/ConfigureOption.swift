@@ -26,7 +26,7 @@ struct ConfigureOption {
          isBackgroundFadeIn: Bool = true,
          isDismissibleForTap: Bool = true,
          shouldDisplayPageControl: Bool = true,
-         backgroundViewFradientType: GradientStyle = .none) {
+         backgroundViewFradientType: GradientStyle = .normal) {
         self.backgroundColor = backgroundColor
         self.backgroundAlpha = backgroundAlpha
         self.pageControlColor = pageControlColor

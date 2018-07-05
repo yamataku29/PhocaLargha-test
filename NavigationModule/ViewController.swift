@@ -12,6 +12,10 @@ class ViewController: UIViewController {
     let firstImage = UIImage(named: "first_image")
     let secondImage = UIImage(named: "second_image")
     let thirdImage = UIImage(named: "third_image")
+    let blackFirstImage = UIImage(named: "black_first_image")
+    let blackSecondImage = UIImage(named: "black_second_image")
+    let blackThirdImage = UIImage(named: "black_third_image")
+    let blackFourthImage = UIImage(named: "black_fourth_image")
 
     @IBAction func popButton(_ sender: UIButton) {
         let popNavi = PopNavi()
@@ -32,6 +36,28 @@ class ViewController: UIViewController {
          */
     }
 
+    @IBAction func blackNabiButton(_ sender: UIButton) {
+        let popNavi = PopNavi()
+        popNavi.configureOption.backgroundViewFradientType = .lemonGreenTea
+        popNavi.configureOption.pageControlColor = UIColor.yellow
+        var buttonConfigure = FooterViewConfigure(type: .single, singleButtonTitle: "NEXT", singleButtonTextColor: UIColor.yellow)
+        buttonConfigure.backgroundColor = UIColor.black
+        buttonConfigure.singleButtonColor = UIColor.black
+        var lastButtonConfigure = FooterViewConfigure(type: .single, singleButtonTitle: "OK", singleButtonTextColor: UIColor.yellow)
+        lastButtonConfigure.backgroundColor = UIColor.black
+        lastButtonConfigure.singleButtonColor = UIColor.black
+        var firstViewComponent = BaseViewComponent(viewType: .walkthrough, footerViewConfigure: buttonConfigure, image: blackFirstImage)
+        firstViewComponent.baseViewColor = UIColor.black
+        var secondViewComponent = BaseViewComponent(viewType: .walkthrough, footerViewConfigure: buttonConfigure, image: blackSecondImage)
+        secondViewComponent.baseViewColor = UIColor.black
+        var thirdViewComponent = BaseViewComponent(viewType: .walkthrough, footerViewConfigure: lastButtonConfigure, image: blackThirdImage)
+        thirdViewComponent.baseViewColor = UIColor.black
+        popNavi.setBaseView(baseViewComponent: firstViewComponent, isLastView: false)
+        popNavi.setBaseView(baseViewComponent: secondViewComponent, isLastView: false)
+        popNavi.setBaseView(baseViewComponent: thirdViewComponent, isLastView: true)
+        popNavi.configureNavigation()
+        popNavi.slideUp(duration: 0.7)
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
     }

@@ -20,18 +20,13 @@ enum GradientStyle {
     case peachGrape
     case lemonGrape
     case grapeAndMuscat
-    case custom
-    case none
+    case normal
 }
 
 struct GradientStyleSheet {
-    typealias RGB = (red: CGFont, green: CGFont, blue: CGFont)
-    typealias CustomGradientColorSet = (top: RGB, bottom: RGB)
     private var frame: CGRect
-    private var customGradientColorSet: CustomGradientColorSet?
-    init(frame: CGRect, customGradientColorSet: CustomGradientColorSet? = nil) {
+    init(frame: CGRect) {
         self.frame = frame
-        self.customGradientColorSet = customGradientColorSet
     }
     var limeGreen: CAGradientLayer {
         return getGradientLayer(colorSet: GradientStyleList.limeGreen, frame: frame)
@@ -63,16 +58,6 @@ struct GradientStyleSheet {
     var grapeAndMuscat: CAGradientLayer {
         return getGradientLayer(colorSet: GradientStyleList.grapeAndMuscat, frame: frame)
     }
-    var custom: CAGradientLayer {
-        guard let customGradientColorSet = customGradientColorSet else {
-            assert(true, "The value is not set in customGradientColorSet! Please set a value.")
-            return CAGradientLayer()
-        }
-        let topColor = UIColor(customGradientColorSet.top)
-        let bottomColor = UIColor(customGradientColorSet.bottom)
-        let customColorSet = GradientStyleList.ColorSet(top: topColor, bottom: bottomColor)
-        return getGradientLayer(colorSet: customColorSet, frame: frame)
-    }
 }
 
 private extension GradientStyleSheet {
@@ -97,7 +82,6 @@ private struct GradientStyleList {
     static let peachGrape = ColorSet(top: UIColor(0.38, 0.52, 1.0), bottom: UIColor(1.0, 0.0, 0.0))
     static let lemonGrape = ColorSet(top: UIColor(0.98, 0.93, 0.01), bottom: UIColor(0.53, 0.18, 0.85))
     static let grapeAndMuscat = ColorSet(top: UIColor(0.18, 0.29, 0.85), bottom: UIColor(0.01, 0.98, 0.02))
-    static let custom = ColorSet(top: UIColor(0.18, 0.29, 0.85), bottom: UIColor(0.01, 0.98, 0.02))
 }
 
 extension UIView {
@@ -125,9 +109,7 @@ extension UIView {
             gradientLayer = gradientStyleSheet.lemonGrape
         case .grapeAndMuscat:
             gradientLayer = gradientStyleSheet.grapeAndMuscat
-        case .custom:
-            gradientLayer = gradientStyleSheet.custom
-        case .none:
+        case .normal:
             break
         }
         layer.insertSublayer(gradientLayer, at: 0)
@@ -137,8 +119,5 @@ extension UIView {
 private extension UIColor {
     convenience init(_ red: CGFloat, _ green: CGFloat, _ blue: CGFloat) {
         self.init(red: red, green: green, blue: blue, alpha: 1)
-    }
-    convenience init(_ set: GradientStyleSheet.RGB) {
-        self.init(red: set.red as! CGFloat, green: set.green as! CGFloat, blue: set.blue as! CGFloat, alpha: 1)
     }
 }
