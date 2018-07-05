@@ -18,9 +18,9 @@ class ViewController: UIViewController {
         popNavi.configureOption.backgroundViewFradientType = .lemonGrape
         let buttonConfigure = FooterViewConfigure(type: .single, singleButtonTitle: "NEXT", singleButtonTextColor: UIColor.orange)
         let lastButtonConfigure = FooterViewConfigure(type: .single, singleButtonTitle: "OK", singleButtonTextColor: UIColor.orange)
-        let firstViewComponent = BaseViewComponent(footerViewConfigure: buttonConfigure, image: firstImage)
-        let secondViewComponent = BaseViewComponent(footerViewConfigure: buttonConfigure, image: secondImage)
-        let thirdViewComponent = BaseViewComponent(footerViewConfigure: lastButtonConfigure, image: thirdImage)
+        let firstViewComponent = BaseViewComponent(viewType: .walkthrough, footerViewConfigure: buttonConfigure, image: firstImage)
+        let secondViewComponent = BaseViewComponent(viewType: .walkthrough, footerViewConfigure: buttonConfigure, image: secondImage)
+        let thirdViewComponent = BaseViewComponent(viewType: .walkthrough, footerViewConfigure: lastButtonConfigure, image: thirdImage)
         popNavi.setBaseView(baseViewComponent: firstViewComponent, isLastView: false)
         popNavi.setBaseView(baseViewComponent: secondViewComponent, isLastView: false)
         popNavi.setBaseView(baseViewComponent: thirdViewComponent, isLastView: true)

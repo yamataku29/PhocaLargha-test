@@ -58,13 +58,6 @@ struct FooterViewConfigure {
 struct BaseViewComponent {
     // TODO: 作成するダイアログパターン
     /*
-     ### ウォークスルー
-     TODO
-     - ベースビュー/フッタービュー/フッターボタンのバックグラウンドカラー指定
-     - ベースビュー/フッタービュー/フッターボタンの枠線カラー指定
-     - フッターボタンのテキストカラー指定
-     - フッターボタンが無い時の画像リサイジング
-
      ### アラート
      - タイトル(背景カラー指定可能) + メッセージ + ボタン(1-2個)
      - タイトル(背景カラー指定可能) + 画像 + ボタン(1-2個)
@@ -85,7 +78,7 @@ struct BaseViewComponent {
     var image: UIImage?
     var baseViewColor: UIColor
 
-    init(viewType: ViewType = .walkthrough,
+    init(viewType: ViewType,
          cornerRadius: CGFloat = 10,
          shouldDisplayFooterView: Bool = true,
          footerViewConfigure: FooterViewConfigure,
