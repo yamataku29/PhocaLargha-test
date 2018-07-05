@@ -28,6 +28,7 @@ struct FooterViewConfigure {
     var rightButtonTextColor: UIColor?
     var backgroundColor: UIColor
     var completion: (() -> ())?
+
     init(type: ButtonType = .single,
          singleButtonTitle: String? = nil,
          leftButtonTitle: String? = nil,
@@ -58,17 +59,13 @@ struct FooterViewConfigure {
 struct BaseViewComponent {
     // TODO: 作成するダイアログパターン
     /*
-     ### アラート
-     - タイトル(背景カラー指定可能) + メッセージ + ボタン(1-2個)
-     - タイトル(背景カラー指定可能) + 画像 + ボタン(1-2個)
-
-     ### アンケート
-     - タイトル(背景カラー指定可能) + メッセージ + テキストフィールド + ボタン(1-2個)
+     - タイトル + メッセージ + ボタン(1-2個)
+     - タイトル + テキストフィールド + ボタン(1-2個)
      */
     enum ViewType {
-        case walkthrough
-        case alert
-        case dialog
+        case large
+        case medium
+        case small
     }
 
     var viewType: ViewType
@@ -77,19 +74,31 @@ struct BaseViewComponent {
     var footerViewConfigure: FooterViewConfigure
     var image: UIImage?
     var baseViewColor: UIColor
+    var topTitleText: String?
+    var topTitleTextColor: UIColor
+    var topTitleFont: UIFont
+    var topTitleLabelHeight: CGFloat
 
     init(viewType: ViewType,
          cornerRadius: CGFloat = 10,
          shouldDisplayFooterView: Bool = true,
          footerViewConfigure: FooterViewConfigure,
          image: UIImage? = nil,
-         baseViewColor: UIColor = .white) {
+         baseViewColor: UIColor = .white,
+         topTitleText: String? = nil,
+         topTitleTextColor: UIColor = .black,
+         topTitleFont: UIFont = UIFont.boldSystemFont(ofSize: 20),
+         topTitleLabelHeight: CGFloat = 60) {
         self.viewType = viewType
         self.cornerRadius = cornerRadius
         self.shouldDisplayFooterView = shouldDisplayFooterView
         self.footerViewConfigure = footerViewConfigure
         self.image = image
         self.baseViewColor = baseViewColor
+        self.topTitleText = topTitleText
+        self.topTitleTextColor = topTitleTextColor
+        self.topTitleFont = topTitleFont
+        self.topTitleLabelHeight = topTitleLabelHeight
     }
 }
 
@@ -104,13 +113,13 @@ class BaseView: UIView {
                      centerPosition: CGPoint, gesture: UITapGestureRecognizer? = nil) {
         var baseViewFrame = CGRect()
         switch component.viewType {
-        case .dialog:
+        case .small:
             baseViewFrame = CGRect(x: 0, y: 0, width: superViewSize.width/1.5,
                                    height: superViewSize.height/2.3)
-        case .alert:
+        case .medium:
             baseViewFrame = CGRect(x: 0, y: 0, width: superViewSize.width/1.5,
                                    height: superViewSize.height/2)
-        case .walkthrough:
+        case .large:
             baseViewFrame = CGRect(x: 0, y: 0, width: superViewSize.width/1.3,
                                    height: superViewSize.height/1.8)
         }
@@ -118,14 +127,30 @@ class BaseView: UIView {
         center = centerPosition
 
         if let image = component.image {
-            setImage(with: image)
+            setImage(with: image, topTitleLabelHeight: component.topTitleLabelHeight)
         }
         backgroundColor = component.baseViewColor
         setFooterView(configure: component.footerViewConfigure, cornerRadius: component.cornerRadius,
                       size: footerViewSize, gesture: gesture)
+        if let titleText = component.topTitleText {
+            setTitleView(topTitleText: titleText, topTitleTextColor: component.topTitleTextColor,
+                         topTitleFont: component.topTitleFont, topTitleLabelHeight: component.topTitleLabelHeight)
+        }
     }
     var footerViewSize: CGSize {
         return CGSize(width: bounds.width, height: bounds.height/6)
+    }
+    func setTitleView(topTitleText: String, topTitleTextColor: UIColor, topTitleFont: UIFont, topTitleLabelHeight: CGFloat) {
+        let titleLabel = UILabel()
+        titleLabel.bounds.size = CGSize(width: bounds.width, height: topTitleLabelHeight)
+        titleLabel.center = CGPoint(x: bounds.width/2, y: topTitleLabelHeight/2)
+        titleLabel.text = topTitleText
+        titleLabel.textColor = topTitleTextColor
+        titleLabel.textAlignment = .center
+        titleLabel.font = topTitleFont
+        titleLabel.lineBreakMode = .byWordWrapping
+        titleLabel.numberOfLines = 10
+        addSubview(titleLabel)
     }
     func setFooterView(configure: FooterViewConfigure,
                        cornerRadius: CGFloat, size: CGSize, gesture: UITapGestureRecognizer?) {
@@ -136,11 +161,12 @@ class BaseView: UIView {
         footerView.setBottomRoundCorner(with: CGSize(width: cornerRadius, height: cornerRadius))
         addSubview(footerView)
     }
-    func setImage(with image: UIImage) {
+    func setImage(with image: UIImage, topTitleLabelHeight: CGFloat) {
         let imageView = UIImageView(image:image)
-        imageView.bounds.size = CGSize(width: bounds.width, height: bounds.height-footerViewSize.height)
+        let centerOffset = topTitleLabelHeight-footerViewSize.height
+        imageView.bounds.size = CGSize(width: bounds.width, height: bounds.height-footerViewSize.height-topTitleLabelHeight)
         imageView.center.x = bounds.width/2
-        imageView.center.y = (bounds.height-footerViewSize.height)/2
+        imageView.center.y = bounds.height/2+centerOffset
         imageView.contentMode = .scaleAspectFit
         addSubview(imageView)
     }
@@ -148,6 +174,7 @@ class BaseView: UIView {
 
 class FirstBaseView: BaseView {}
 class LastBaseView: BaseView {}
+class TitleView: UIView {}
 
 class FooterView: UIView {
     override init(frame: CGRect) {

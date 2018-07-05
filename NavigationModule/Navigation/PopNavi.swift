@@ -45,12 +45,12 @@ open class PopNavi: UIViewController, AppearAnimation, DimissAnimation {
     func setBaseView(baseViewComponent: BaseViewComponent, isLastView: Bool) {
         var baseView = BaseView()
 
-        if (contentViews.isEmpty) {
+        if isLastView {
+            baseView = LastBaseView(component: baseViewComponent, with: view.bounds.size,
+                                    centerPosition: view.center, gesture: dismissGesture)
+        } else if (contentViews.isEmpty) {
             baseView = FirstBaseView(component: baseViewComponent, with: view.bounds.size,
                                      centerPosition: view.center, gesture: nextGesture)
-        } else if isLastView {
-            baseView = LastBaseView(component: baseViewComponent, with: view.bounds.size,
-                                        centerPosition: view.center, gesture: dismissGesture)
         } else {
             baseView = BaseView(component: baseViewComponent, with: view.bounds.size,
                                 centerPosition: view.center, gesture: nextGesture)
