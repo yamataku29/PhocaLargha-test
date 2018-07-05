@@ -12,6 +12,7 @@ import UIKit
 struct ConfigureOption {
     var backgroundColor: UIColor
     var backgroundAlpha: CGFloat
+    var pageControlColor: UIColor
     var isDimissAnimation: Bool
     var isBackgroundFadeIn: Bool
     var isDismissibleForTap: Bool
@@ -19,12 +20,14 @@ struct ConfigureOption {
 
     init(backgroundColor: UIColor = UIColor.black,
          backgroundAlpha: CGFloat = 0.5,
+         pageControlColor: UIColor = .orange,
          isDimissAnimation: Bool = false,
          isBackgroundFadeIn: Bool = true,
          isDismissibleForTap: Bool = true,
          shouldDisplayPageControl: Bool = true) {
         self.backgroundColor = backgroundColor
         self.backgroundAlpha = backgroundAlpha
+        self.pageControlColor = pageControlColor
         self.isDimissAnimation = isDimissAnimation
         self.isBackgroundFadeIn = isBackgroundFadeIn
         self.isDismissibleForTap = isDismissibleForTap

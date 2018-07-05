@@ -1,5 +1,5 @@
 //
-//  AppearAnimation.swift
+//  AnimationStyleSheet.swift
 //  NavigationModule
 //
 //  Created by Yamada Taku on 2018/06/28.
@@ -15,7 +15,7 @@ protocol AppearAnimation: class {
     func centerZoomIn()
 }
 
-protocol DimissAnimation:  class{
+protocol DimissAnimation:  class {
     func slideDown(with dialogs: [BaseView], presentingView: UIView?, duration: TimeInterval, delegate: DimissAnimationDelegate?)
 }
 

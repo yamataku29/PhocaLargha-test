@@ -15,7 +15,8 @@
 		F002C46020E49E6F00241450 /* NavigationModuleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F002C45F20E49E6F00241450 /* NavigationModuleTests.swift */; };
 		F002C46B20E49E6F00241450 /* NavigationModuleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F002C46A20E49E6F00241450 /* NavigationModuleUITests.swift */; };
 		F002C47A20E49F5F00241450 /* PopNavi.swift in Sources */ = {isa = PBXBuildFile; fileRef = F002C47920E49F5F00241450 /* PopNavi.swift */; };
-		F09E8E4B20E4BA98008C6D79 /* AppearAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F09E8E4A20E4BA98008C6D79 /* AppearAnimation.swift */; };
+		F0984B8A20EDB2CA0022375C /* GradientStyleSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0984B8920EDB2CA0022375C /* GradientStyleSheet.swift */; };
+		F09E8E4B20E4BA98008C6D79 /* AnimationStyleSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = F09E8E4A20E4BA98008C6D79 /* AnimationStyleSheet.swift */; };
 		F09E8E4D20E4BE31008C6D79 /* AccessibleProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = F09E8E4C20E4BE31008C6D79 /* AccessibleProperty.swift */; };
 		F09E8E4F20E6202D008C6D79 /* PagingScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F09E8E4E20E6202D008C6D79 /* PagingScrollView.swift */; };
 		F09E8E5120E62068008C6D79 /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F09E8E5020E62068008C6D79 /* BaseView.swift */; };
@@ -54,7 +55,8 @@
 		F002C46A20E49E6F00241450 /* NavigationModuleUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationModuleUITests.swift; sourceTree = "<group>"; };
 		F002C46C20E49E6F00241450 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F002C47920E49F5F00241450 /* PopNavi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopNavi.swift; sourceTree = "<group>"; };
-		F09E8E4A20E4BA98008C6D79 /* AppearAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearAnimation.swift; sourceTree = "<group>"; };
+		F0984B8920EDB2CA0022375C /* GradientStyleSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientStyleSheet.swift; sourceTree = "<group>"; };
+		F09E8E4A20E4BA98008C6D79 /* AnimationStyleSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationStyleSheet.swift; sourceTree = "<group>"; };
 		F09E8E4C20E4BE31008C6D79 /* AccessibleProperty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibleProperty.swift; sourceTree = "<group>"; };
 		F09E8E4E20E6202D008C6D79 /* PagingScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagingScrollView.swift; sourceTree = "<group>"; };
 		F09E8E5020E62068008C6D79 /* BaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseView.swift; sourceTree = "<group>"; };
@@ -142,11 +144,12 @@
 			isa = PBXGroup;
 			children = (
 				F002C47920E49F5F00241450 /* PopNavi.swift */,
-				F09E8E4A20E4BA98008C6D79 /* AppearAnimation.swift */,
+				F09E8E4A20E4BA98008C6D79 /* AnimationStyleSheet.swift */,
 				F09E8E4C20E4BE31008C6D79 /* AccessibleProperty.swift */,
 				F09E8E4E20E6202D008C6D79 /* PagingScrollView.swift */,
 				F09E8E5020E62068008C6D79 /* BaseView.swift */,
 				F09E8E5220E622AB008C6D79 /* ConfigureOption.swift */,
+				F0984B8920EDB2CA0022375C /* GradientStyleSheet.swift */,
 			);
 			path = Navigation;
 			sourceTree = "<group>";
@@ -289,9 +292,10 @@
 				F09E8E4F20E6202D008C6D79 /* PagingScrollView.swift in Sources */,
 				F002C47A20E49F5F00241450 /* PopNavi.swift in Sources */,
 				F09E8E5320E622AB008C6D79 /* ConfigureOption.swift in Sources */,
-				F09E8E4B20E4BA98008C6D79 /* AppearAnimation.swift in Sources */,
+				F09E8E4B20E4BA98008C6D79 /* AnimationStyleSheet.swift in Sources */,
 				F09E8E5120E62068008C6D79 /* BaseView.swift in Sources */,
 				F002C44D20E49E6F00241450 /* ViewController.swift in Sources */,
+				F0984B8A20EDB2CA0022375C /* GradientStyleSheet.swift in Sources */,
 				F002C44B20E49E6F00241450 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

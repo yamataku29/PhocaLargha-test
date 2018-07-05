@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-struct FooterButtonConfigure {
+struct FooterViewConfigure {
     enum ButtonType {
         case single
         case double
@@ -17,19 +17,40 @@ struct FooterButtonConfigure {
     }
 
     let type: ButtonType
-    let singleTitle: String?
-    let doubleLeftTitle: String?
-    let doubleRightTitle: String?
+    let singleButtonTitle: String?
+    let leftButtonTitle: String?
+    let rightButtonTitle: String?
+    let singleButtonColor: UIColor?
+    let leftButtonColor: UIColor?
+    let rightButtonColor: UIColor?
+    let singleButtonTextColor: UIColor?
+    let leftButtonTextColor: UIColor?
+    let rightButtonTextColor: UIColor?
+    let backgroundColor: UIColor
     let completion: (() -> ())?
     init(type: ButtonType = .single,
-         singleTitle: String? = nil,
-         doubleLeftTitle: String? = nil,
-         doubleRightTitle: String? = nil,
+         singleButtonTitle: String? = nil,
+         leftButtonTitle: String? = nil,
+         rightButtonTitle: String? = nil,
+         singleButtonColor: UIColor? = .white,
+         leftButtonColor: UIColor? = .white,
+         rightButtonColor: UIColor? = .white,
+         singleButtonTextColor: UIColor? = .black,
+         leftButtonTextColor: UIColor? = .black,
+         rightButtonTextColor: UIColor? = .black,
+         backgroundColor: UIColor = .clear,
          completion: (() -> ())? = nil) {
         self.type = type
-        self.singleTitle = singleTitle
-        self.doubleLeftTitle = doubleLeftTitle
-        self.doubleRightTitle = doubleRightTitle
+        self.singleButtonTitle = singleButtonTitle
+        self.leftButtonTitle = leftButtonTitle
+        self.rightButtonTitle = rightButtonTitle
+        self.singleButtonColor = singleButtonColor
+        self.leftButtonColor = leftButtonColor
+        self.rightButtonColor = rightButtonColor
+        self.singleButtonTextColor = singleButtonTextColor
+        self.leftButtonTextColor = leftButtonColor
+        self.rightButtonTextColor = rightButtonColor
+        self.backgroundColor = backgroundColor
         self.completion = completion
     }
 }
@@ -38,7 +59,11 @@ struct BaseViewComponent {
     // TODO: 作成するダイアログパターン
     /*
      ### ウォークスルー
-     - ボタン1つ + 画像 (ボタン部分に余白のあるタイプ)
+     TODO
+     - ベースビュー/フッタービュー/フッターボタンのバックグラウンドカラー指定
+     - ベースビュー/フッタービュー/フッターボタンの枠線カラー指定
+     - フッターボタンのテキストカラー指定
+     - フッターボタンが無い時の画像リサイジング
 
      ### アラート
      - タイトル(背景カラー指定可能) + メッセージ + ボタン(1-2個)
@@ -56,18 +81,18 @@ struct BaseViewComponent {
     var viewType: ViewType
     var cornerRadius: CGFloat
     var shouldDisplayFooterView: Bool
-    var footerButtonConfigure: FooterButtonConfigure
+    var footerViewConfigure: FooterViewConfigure
     var image: UIImage?
 
     init(viewType: ViewType = .walkthrough,
          cornerRadius: CGFloat = 10,
          shouldDisplayFooterView: Bool = true,
-         footerButtonConfigure: FooterButtonConfigure,
+         footerViewConfigure: FooterViewConfigure,
          image: UIImage? = nil) {
         self.viewType = viewType
         self.cornerRadius = cornerRadius
         self.shouldDisplayFooterView = shouldDisplayFooterView
-        self.footerButtonConfigure = footerButtonConfigure
+        self.footerViewConfigure = footerViewConfigure
         self.image = image
     }
 }
@@ -99,18 +124,18 @@ class BaseView: UIView {
         if let image = component.image {
             setImage(with: image)
         }
-        setFooterView(type: component.footerButtonConfigure, cornerRadius: component.cornerRadius,
+        setFooterView(configure: component.footerViewConfigure, cornerRadius: component.cornerRadius,
                       size: footerViewSize, gesture: gesture)
     }
     var footerViewSize: CGSize {
         return CGSize(width: bounds.width, height: bounds.height/6)
     }
-    func setFooterView(type: FooterButtonConfigure,
+    func setFooterView(configure: FooterViewConfigure,
                        cornerRadius: CGFloat, size: CGSize, gesture: UITapGestureRecognizer?) {
         let footerViewFrame = CGRect(x: 0, y: bounds.height - size.height, width: size.width, height: size.height)
-        let footerView = FooterView(footerButtonType: type, frame: footerViewFrame,
+        let footerView = FooterView(footerViewType: configure, frame: footerViewFrame,
                                     cornerRadius: cornerRadius, gesture: gesture)
-        footerView.backgroundColor = UIColor.red
+        footerView.backgroundColor = configure.backgroundColor
         footerView.setBottomRoundCorner(with: CGSize(width: cornerRadius, height: cornerRadius))
         addSubview(footerView)
     }
@@ -134,12 +159,12 @@ class FooterView: UIView {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    convenience init(footerButtonType: FooterButtonConfigure,
+    convenience init(footerViewType: FooterViewConfigure,
                      frame: CGRect, cornerRadius: CGFloat, gesture: UITapGestureRecognizer?) {
         self.init(frame: frame)
-        setFooterButton(configure: footerButtonType, cornerRadius: cornerRadius, gesture: gesture)
+        setFooterButton(configure: footerViewType, cornerRadius: cornerRadius, gesture: gesture)
     }
-    func setFooterButton(configure: FooterButtonConfigure, cornerRadius: CGFloat,
+    func setFooterButton(configure: FooterViewConfigure, cornerRadius: CGFloat,
                          gesture: UITapGestureRecognizer? = nil) {
         switch configure.type {
         case .single:
@@ -150,10 +175,11 @@ class FooterView: UIView {
             buttonView.bounds.size = CGSize(width: bounds.width*2/3, height: bounds.height*3/5)
             buttonView.center = CGPoint(x: bounds.width/2, y: bounds.height/2)
             buttonView.layer.cornerRadius = cornerRadius
-            buttonView.backgroundColor = UIColor.white
+            buttonView.backgroundColor = configure.singleButtonColor
 
             let titleLabel = UILabel()
-            titleLabel.text = configure.singleTitle
+            titleLabel.text = configure.singleButtonTitle
+            titleLabel.textColor = configure.singleButtonTextColor
             titleLabel.sizeToFit()
             titleLabel.center = CGPoint(x: buttonView.bounds.width/2, y: buttonView.bounds.height/2)
             buttonView.addSubview(titleLabel)
@@ -168,12 +194,13 @@ class FooterView: UIView {
             leftButtonView.bounds.size = buttonSize
             leftButtonView.center = CGPoint(x: bounds.width/4, y: bounds.height/2)
             leftButtonView.layer.cornerRadius = cornerRadius
-            leftButtonView.backgroundColor = UIColor.white
+            leftButtonView.backgroundColor = configure.leftButtonColor
 
             let leftTitleLabel = UILabel()
-            leftTitleLabel.text = configure.singleTitle
+            leftTitleLabel.text = configure.leftButtonTitle
             leftTitleLabel.sizeToFit()
             leftTitleLabel.center = CGPoint(x: leftButtonView.bounds.width/2, y: leftButtonView.bounds.height/2)
+            leftTitleLabel.textColor = configure.leftButtonTextColor
             leftButtonView.addSubview(leftTitleLabel)
             addSubview(leftButtonView)
 
@@ -185,12 +212,13 @@ class FooterView: UIView {
             rightButtonView.center = CGPoint(x: bounds.width*3/4, y: bounds.height/2)
             rightButtonView.backgroundColor = UIColor.black
             rightButtonView.layer.cornerRadius = cornerRadius
-            rightButtonView.backgroundColor = UIColor.white
+            rightButtonView.backgroundColor = configure.rightButtonColor
 
             let rightTitleLabel = UILabel()
-            rightTitleLabel.text = configure.singleTitle
+            rightTitleLabel.text = configure.leftButtonTitle
             rightTitleLabel.sizeToFit()
             rightTitleLabel.center = CGPoint(x: rightButtonView.bounds.width/2, y: rightButtonView.bounds.height/2)
+            rightTitleLabel.textColor = configure.rightButtonTextColor
             rightButtonView.addSubview(rightTitleLabel)
             addSubview(rightButtonView)
 

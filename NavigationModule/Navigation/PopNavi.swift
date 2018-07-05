@@ -33,7 +33,7 @@ open class PopNavi: UIViewController, AppearAnimation, DimissAnimation {
                 pageControl.center.y = UIScreen.main.bounds.midY + largeBaseViewHeight/2 + 20
                 pageControl.center.x = UIScreen.main.bounds.midX
                 pageControl.numberOfPages = contentViews.count
-                pageControl.currentPageIndicatorTintColor = UIColor.orange
+                pageControl.currentPageIndicatorTintColor = configureOption.pageControlColor
                 pageControl.currentPage = 0
                 pageControl.isUserInteractionEnabled = false
                 view.addSubview(pageControl)
@@ -63,6 +63,10 @@ open class PopNavi: UIViewController, AppearAnimation, DimissAnimation {
     func configureNavigation() {
         generateScrollView()
         generateBaseView()
+        // TODO: グラデーションが正常に動作するか確認
+        if let backgroundView = backgroundView {
+            backgroundView.setGradientColor(type: .custom)
+        }
     }
     func slideUp(duration: TimeInterval) {
         self.duration = duration
