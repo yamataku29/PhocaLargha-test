@@ -27,6 +27,7 @@ struct FooterViewConfigure {
     var leftButtonTextColor: UIColor?
     var rightButtonTextColor: UIColor?
     var backgroundColor: UIColor
+    var buttonTextFont: UIFont?
     var completion: (() -> ())?
 
     init(type: ButtonType = .single,
@@ -40,6 +41,7 @@ struct FooterViewConfigure {
          leftButtonTextColor: UIColor? = .black,
          rightButtonTextColor: UIColor? = .black,
          backgroundColor: UIColor = .clear,
+         buttonTextFont: UIFont? = UIFont.boldSystemFont(ofSize: 12),
          completion: (() -> ())? = nil) {
         self.type = type
         self.singleButtonTitle = singleButtonTitle
@@ -49,9 +51,10 @@ struct FooterViewConfigure {
         self.leftButtonColor = leftButtonColor
         self.rightButtonColor = rightButtonColor
         self.singleButtonTextColor = singleButtonTextColor
-        self.leftButtonTextColor = leftButtonColor
-        self.rightButtonTextColor = rightButtonColor
+        self.leftButtonTextColor = leftButtonTextColor
+        self.rightButtonTextColor = rightButtonTextColor
         self.backgroundColor = backgroundColor
+        self.buttonTextFont = buttonTextFont
         self.completion = completion
     }
 }
@@ -78,6 +81,8 @@ struct BaseViewComponent {
     var topTitleTextColor: UIColor
     var topTitleFont: UIFont
     var topTitleLabelHeight: CGFloat
+    var shouldDisplayMessageField: Bool
+    var messageFieldPlaceholder: String?
 
     init(viewType: ViewType,
          cornerRadius: CGFloat = 10,
@@ -88,7 +93,9 @@ struct BaseViewComponent {
          topTitleText: String? = nil,
          topTitleTextColor: UIColor = .black,
          topTitleFont: UIFont = UIFont.boldSystemFont(ofSize: 20),
-         topTitleLabelHeight: CGFloat = 60) {
+         topTitleLabelHeight: CGFloat = 60,
+         shouldDisplayMessageField: Bool = false,
+         messageFieldPlaceholder: String? = nil) {
         self.viewType = viewType
         self.cornerRadius = cornerRadius
         self.shouldDisplayFooterView = shouldDisplayFooterView
@@ -99,6 +106,8 @@ struct BaseViewComponent {
         self.topTitleTextColor = topTitleTextColor
         self.topTitleFont = topTitleFont
         self.topTitleLabelHeight = topTitleLabelHeight
+        self.shouldDisplayMessageField = shouldDisplayMessageField
+        self.messageFieldPlaceholder = messageFieldPlaceholder
     }
 }
 
@@ -110,7 +119,8 @@ class BaseView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     convenience init(component: BaseViewComponent, with superViewSize: CGSize,
-                     centerPosition: CGPoint, gesture: UITapGestureRecognizer? = nil) {
+                     centerPosition: CGPoint, gesture: UITapGestureRecognizer? = nil,
+                     textFieldDelegate: UITextFieldDelegate) {
         var baseViewFrame = CGRect()
         switch component.viewType {
         case .small:
@@ -125,6 +135,7 @@ class BaseView: UIView {
         }
         self.init(frame: baseViewFrame)
         center = centerPosition
+        delegate = textFieldDelegate
 
         if let image = component.image {
             setImage(with: image, topTitleLabelHeight: component.topTitleLabelHeight)
@@ -136,9 +147,35 @@ class BaseView: UIView {
             setTitleView(topTitleText: titleText, topTitleTextColor: component.topTitleTextColor,
                          topTitleFont: component.topTitleFont, topTitleLabelHeight: component.topTitleLabelHeight)
         }
+        if component.shouldDisplayMessageField {
+            let topTitleLabelHeight = component.topTitleText == nil ? 0 : component.topTitleLabelHeight
+            setInputTextField(with: component.messageFieldPlaceholder, topTitleLabelHeight: topTitleLabelHeight)
+        }
     }
+    weak var delegate: UITextFieldDelegate?
     var footerViewSize: CGSize {
         return CGSize(width: bounds.width, height: bounds.height/6)
+    }
+    func setMessageTextView() {
+
+    }
+    func setInputTextField(with placeholder: String?, topTitleLabelHeight: CGFloat) {
+        let textField = UITextField()
+        let centerOffset = topTitleLabelHeight-footerViewSize.height
+        let textFieldMargin: CGFloat = 40
+        textField.bounds.size = CGSize(width: bounds.width-textFieldMargin,
+                                       height: bounds.height/5)
+        textField.center.x = bounds.width/2
+        textField.center.y = bounds.height*3/5+centerOffset
+        textField.borderStyle = .roundedRect
+        textField.delegate = delegate
+        textField.layer.borderColor = UIColor.lightGray.cgColor
+        textField.layer.borderWidth = 1
+        textField.layer.cornerRadius = 5
+        textField.clearButtonMode = .always
+        textField.returnKeyType = .done
+        textField.placeholder = placeholder
+        addSubview(textField)
     }
     func setTitleView(topTitleText: String, topTitleTextColor: UIColor, topTitleFont: UIFont, topTitleLabelHeight: CGFloat) {
         let titleLabel = UILabel()
@@ -205,18 +242,20 @@ class FooterView: UIView {
             titleLabel.text = configure.singleButtonTitle
             titleLabel.textColor = configure.singleButtonTextColor
             titleLabel.sizeToFit()
+            titleLabel.font = configure.buttonTextFont
+            titleLabel.textAlignment = .center
             titleLabel.center = CGPoint(x: buttonView.bounds.width/2, y: buttonView.bounds.height/2)
             buttonView.addSubview(titleLabel)
             addSubview(buttonView)
 
         case .double:
-            let buttonSize = CGSize(width: bounds.width/2 - 20, height: bounds.height/2)
+            let buttonSize = CGSize(width: bounds.width/2 - 30, height: bounds.height*3/5)
             let leftButtonView = FooterButtonView()
             if let gesture = gesture {
                 leftButtonView.addGestureRecognizer(gesture)
             }
             leftButtonView.bounds.size = buttonSize
-            leftButtonView.center = CGPoint(x: bounds.width/4, y: bounds.height/2)
+            leftButtonView.center = CGPoint(x: (bounds.width/4)+5, y: bounds.height/2)
             leftButtonView.layer.cornerRadius = cornerRadius
             leftButtonView.backgroundColor = configure.leftButtonColor
 
@@ -225,6 +264,8 @@ class FooterView: UIView {
             leftTitleLabel.sizeToFit()
             leftTitleLabel.center = CGPoint(x: leftButtonView.bounds.width/2, y: leftButtonView.bounds.height/2)
             leftTitleLabel.textColor = configure.leftButtonTextColor
+            leftTitleLabel.font = configure.buttonTextFont
+            leftTitleLabel.textAlignment = .center
             leftButtonView.addSubview(leftTitleLabel)
             addSubview(leftButtonView)
 
@@ -233,16 +274,18 @@ class FooterView: UIView {
                 rightButtonView.addGestureRecognizer(gesture)
             }
             rightButtonView.bounds.size = buttonSize
-            rightButtonView.center = CGPoint(x: bounds.width*3/4, y: bounds.height/2)
+            rightButtonView.center = CGPoint(x: (bounds.width*3/4)-5, y: bounds.height/2)
             rightButtonView.backgroundColor = UIColor.black
             rightButtonView.layer.cornerRadius = cornerRadius
             rightButtonView.backgroundColor = configure.rightButtonColor
 
             let rightTitleLabel = UILabel()
-            rightTitleLabel.text = configure.leftButtonTitle
+            rightTitleLabel.text = configure.rightButtonTitle
             rightTitleLabel.sizeToFit()
             rightTitleLabel.center = CGPoint(x: rightButtonView.bounds.width/2, y: rightButtonView.bounds.height/2)
             rightTitleLabel.textColor = configure.rightButtonTextColor
+            rightTitleLabel.font = configure.buttonTextFont
+            rightTitleLabel.textAlignment = .center
             rightButtonView.addSubview(rightTitleLabel)
             addSubview(rightButtonView)
 

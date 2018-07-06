@@ -47,13 +47,13 @@ open class PopNavi: UIViewController, AppearAnimation, DimissAnimation {
 
         if isLastView {
             baseView = LastBaseView(component: baseViewComponent, with: view.bounds.size,
-                                    centerPosition: view.center, gesture: dismissGesture)
+                                    centerPosition: view.center, gesture: dismissGesture, textFieldDelegate: self)
         } else if (contentViews.isEmpty) {
             baseView = FirstBaseView(component: baseViewComponent, with: view.bounds.size,
-                                     centerPosition: view.center, gesture: nextGesture)
+                                     centerPosition: view.center, gesture: nextGesture, textFieldDelegate: self)
         } else {
             baseView = BaseView(component: baseViewComponent, with: view.bounds.size,
-                                centerPosition: view.center, gesture: nextGesture)
+                                centerPosition: view.center, gesture: nextGesture, textFieldDelegate: self)
         }
         baseView.layer.cornerRadius = baseViewComponent.cornerRadius
         contentViews.append(baseView)
@@ -158,5 +158,12 @@ extension PopNavi: UIScrollViewDelegate {
         if configureOption.shouldDisplayPageControl {
             pageControl.currentPage = (scrollView as! PagingScrollView).currentPageIndex
         }
+    }
+}
+
+extension PopNavi: UITextFieldDelegate {
+    public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
 }

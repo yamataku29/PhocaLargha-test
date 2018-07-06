@@ -17,6 +17,24 @@ class ViewController: UIViewController {
     let blackThirdImage = UIImage(named: "black_third_image")
     let blackFourthImage = UIImage(named: "black_fourth_image")
 
+    @IBAction func inputMessageButton(_ sender: UIButton) {
+        let popNavi = PopNavi()
+        popNavi.configureOption.backgroundViewFradientType = .peachGrape
+        popNavi.configureOption.shouldDisplayPageControl = false
+        // TODO: テキストフィールド入力中のキーボードの操作処理を追加
+        // TODO: フッターボタンのcompletionHandlerを実装
+        // TODO: UIImageの有無でダイアログ高さ&タイトルラベル高さ&フッタービュー高さを変更する(resizeみたいなfunctionを入れるか)
+        // NOTE: 👆画面サイズからダイアログの大きさを決定する仕様だが、コンポーネントの数によって大きさを決定した方がシンプルにかけそう(コンポーネントの大きさを決める)
+        let buttonConfigure = FooterViewConfigure(type: .double, leftButtonTitle: "BACK",rightButtonTitle: "SUBMIT",
+                                                  leftButtonColor: UIColor.gray, rightButtonColor: UIColor.purple,
+                                                  leftButtonTextColor: UIColor.white, rightButtonTextColor: UIColor.white)
+        let viewComponent = BaseViewComponent(viewType: .medium, footerViewConfigure:
+            buttonConfigure, topTitleText: "Alert title text!", shouldDisplayMessageField: true, messageFieldPlaceholder: "Please input text here.")
+        popNavi.setBaseView(baseViewComponent: viewComponent, isLastView: true)
+        popNavi.configureNavigation()
+        popNavi.slideUp(duration: 0.7)
+    }
+
     @IBAction func alertDialogButton(_ sender: UIButton) {
         let popNavi = PopNavi()
         popNavi.configureOption.backgroundViewFradientType = .muddySoda
