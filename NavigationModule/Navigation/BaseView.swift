@@ -13,16 +13,16 @@ struct TopComponent {
     var text: String
     var textColor: UIColor
     var font: UIFont
-    var labelHeight: CGFloat
+    var height: CGFloat
 
     init(text: String,
-         textColor: UIColor = .white,
-         font: UIFont = .systemFont(ofSize: 16),
-         labelHeight: CGFloat = 50) {
+         textColor: UIColor = .black,
+         font: UIFont = .boldSystemFont(ofSize: 22),
+         height: CGFloat = 80) {
         self.text = text
         self.textColor = textColor
         self.font = font
-        self.labelHeight = labelHeight
+        self.height = height
     }
 }
 
@@ -39,7 +39,7 @@ struct FooterComponent {
          buttonColor: UIColor? = .white,
          buttonTextColor: UIColor? = .black,
          backgroundColor: UIColor = .clear,
-         buttonTextFont: UIFont? = UIFont.boldSystemFont(ofSize: 12),
+         buttonTextFont: UIFont? = UIFont.boldSystemFont(ofSize: 16),
          height: CGFloat = 50,
          completion: (() -> ())? = nil) {
         self.buttonTitle = buttonTitle
@@ -108,13 +108,13 @@ class BaseView: UIView {
         backgroundColor = component.baseViewColor
         delegate = textFieldDelegate
 
-        let topViewHeight = component.topComponent?.labelHeight ?? 0
+        let topViewHeight = component.topComponent?.height ?? 0
         let bottomViewHeight = component.footerComponent?.height ?? 0
         setImage(with: component.image, topViewHeight: topViewHeight, bottomViewHeight: bottomViewHeight)
 
         if let topComponent = component.topComponent {
             setTopView(text: topComponent.text, textColor: topComponent.textColor,
-                       font: topComponent.font, labelHeight: topComponent.labelHeight)
+                       font: topComponent.font, height: topComponent.height)
         }
 
         if let footerComponent = component.footerComponent {
@@ -126,10 +126,11 @@ class BaseView: UIView {
     func setMessageTextView() {
 
     }
-    func setTopView(text: String, textColor: UIColor, font: UIFont, labelHeight: CGFloat) {
+    func setTopView(text: String, textColor: UIColor, font: UIFont, height: CGFloat) {
+        let sidePadding: CGFloat = 30
         let titleLabel = UILabel()
-        titleLabel.bounds.size = CGSize(width: bounds.width, height: labelHeight)
-        titleLabel.center = CGPoint(x: bounds.width/2, y: labelHeight/2)
+        titleLabel.bounds.size = CGSize(width: bounds.width - sidePadding, height: height)
+        titleLabel.center = CGPoint(x: bounds.width/2, y: height/2)
         titleLabel.text = text
         titleLabel.textColor = textColor
         titleLabel.textAlignment = .center
@@ -150,11 +151,11 @@ class BaseView: UIView {
     }
     func setImage(with image: UIImage, topViewHeight: CGFloat, bottomViewHeight: CGFloat) {
         let imageView = UIImageView(image: image)
-        let centerOffset = bottomViewHeight-topViewHeight
+        let centerOffset = topViewHeight - bottomViewHeight
         imageView.bounds.size = CGSize(width: bounds.width,
-                                       height: bounds.height - bottomViewHeight - bottomViewHeight)
+                                       height: bounds.height - topViewHeight - bottomViewHeight)
         imageView.center.x = bounds.width/2
-        imageView.center.y = bounds.height/2+centerOffset
+        imageView.center.y = (bounds.height/2) + (centerOffset/2)
         imageView.contentMode = .scaleAspectFit
         addSubview(imageView)
     }
