@@ -11,8 +11,6 @@ import UIKit
 
 protocol AppearAnimation: class {
     func slideUp(with dialogs: [BaseView], backgroundView: UIView?, isBackgroundFadeIn: Bool, duration: TimeInterval)
-    func slideUpWithBound()
-    func centerZoomIn()
 }
 
 protocol DimissAnimation:  class {
@@ -63,6 +61,4 @@ extension AppearAnimation where Self: UIViewController {
             })
         }
     }
-    func slideUpWithBound() {}
-    func centerZoomIn() {}
 }
