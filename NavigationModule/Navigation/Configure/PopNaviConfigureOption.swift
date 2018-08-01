@@ -1,5 +1,5 @@
 //
-//  ConfigureOption.swift
+//  PopNaviConfigureOption.swift
 //  NavigationModule
 //
 //  Created by Yamada Taku on 2018/06/29.
@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-struct ConfigureOption {
+struct PopNaviConfigureOption {
     var backgroundColor: UIColor
     var backgroundAlpha: CGFloat
     var pageControlColor: UIColor

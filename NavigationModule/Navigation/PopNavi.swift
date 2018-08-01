@@ -9,7 +9,7 @@
 import UIKit
 
 open class PopNavi: UIViewController, AppearAnimation, DimissAnimation {
-    var configureOption = ConfigureOption()
+    var configureOption = PopNaviConfigureOption()
 
     private var contentViews: [BaseView] = []
     private var backgroundView: UIView?
@@ -27,7 +27,7 @@ open class PopNavi: UIViewController, AppearAnimation, DimissAnimation {
             scrollView.addGestureRecognizer(dismissGesture)
         }
         if configureOption.shouldDisplayPageControl {
-            if let presentingViewController = self.presentingViewController {
+            if presentingViewController != nil {
                 pageControl.bounds.size = CGSize(width: 30, height: 15)
                 pageControl.center.y = UIScreen.main.bounds.maxY - 50
                 pageControl.center.x = UIScreen.main.bounds.midX

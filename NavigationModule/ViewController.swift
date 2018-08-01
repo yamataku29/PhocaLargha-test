@@ -20,7 +20,7 @@ class ViewController: UIViewController {
     @IBAction func popButton(_ sender: UIButton) {
         let popNavi = PopNavi()
         popNavi.configureOption.backgroundViewFradientType = .lemonGrape
-        let topComponent = TopComponent(text: "Test!!!")
+        let topComponent = TopComponent(text: "Test!!!Test!!!Test!!!")
         let footerComponent = FooterComponent(buttonTitle: "NEXT", buttonTextColor: UIColor.orange)
         let lastFooterComponent = FooterComponent(buttonTitle: "OK", buttonTextColor: UIColor.orange)
         let firstViewComponent = BaseViewComponent(viewType: .small, topComponent: topComponent, footerComponent: footerComponent, image: firstImage)
@@ -37,7 +37,7 @@ class ViewController: UIViewController {
         let popNavi = PopNavi()
         popNavi.configureOption.backgroundViewFradientType = .lemonGreenTea
         popNavi.configureOption.pageControlColor = UIColor.yellow
-        let topComponent = TopComponent(text: "Test!!!")
+        let topComponent = TopComponent(text: "Test!!!", textColor: .yellow)
         var footerComponent = FooterComponent(buttonTitle: "NEXT", buttonTextColor: UIColor.yellow)
         footerComponent.backgroundColor = UIColor.black
         footerComponent.buttonColor = UIColor.black
