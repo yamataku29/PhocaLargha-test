@@ -20,6 +20,10 @@ class ViewController: UIViewController {
     @IBAction func popButton(_ sender: UIButton) {
         let popNavi = PopNavi()
         popNavi.configureOption.backgroundViewFradientType = .lemonGrape
+        let completion = { [weak self] () -> Void in
+            self?.alert()
+        }
+        popNavi.configureOption.completion = completion
         let topComponent = TopComponent(text: "Test!!!Test!!!Test!!!")
         let footerComponent = FooterComponent(buttonTitle: "NEXT", buttonTextColor: UIColor.orange)
         let lastFooterComponent = FooterComponent(buttonTitle: "OK", buttonTextColor: UIColor.orange)
@@ -62,6 +66,15 @@ class ViewController: UIViewController {
         /*
          - アニメーションのテンプレート指定はBaseView.animationStyleなどのstructプロパティとして切り出す
          */
+    }
+
+    func alert() -> Void {
+        let alert: UIAlertController = UIAlertController(title: "Complete!", message: "Please push \"OK\"", preferredStyle:  .alert)
+        let defaultAction: UIAlertAction = UIAlertAction(title: "OK", style: .default, handler:{
+            (action: UIAlertAction!) -> Void in
+        })
+        alert.addAction(defaultAction)
+        present(alert, animated: true, completion: nil)
     }
 }
 

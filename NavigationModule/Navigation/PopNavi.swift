@@ -142,7 +142,7 @@ private extension PopNavi {
 // MARK: - Delegate extensions
 extension PopNavi: DimissAnimationDelegate {
     func endDismissAnimation() {
-        dismiss(animated: false, completion: nil)
+        dismiss(animated: false, completion: configureOption.completion)
     }
 }
 

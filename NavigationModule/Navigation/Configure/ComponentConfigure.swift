@@ -62,21 +62,18 @@ struct FooterComponent {
     var backgroundColor: UIColor
     var buttonTextFont: UIFont?
     var height: CGFloat
-    var completion: (() -> ())?
 
     init(buttonTitle: String? = nil,
          buttonColor: UIColor? = .white,
          buttonTextColor: UIColor? = .black,
          backgroundColor: UIColor = .clear,
          buttonTextFont: UIFont? = UIFont.boldSystemFont(ofSize: 16),
-         height: CGFloat = 50,
-         completion: (() -> ())? = nil) {
+         height: CGFloat = 50) {
         self.buttonTitle = buttonTitle
         self.buttonColor = buttonColor
         self.buttonTextColor = buttonTextColor
         self.backgroundColor = backgroundColor
         self.buttonTextFont = buttonTextFont
         self.height = height
-        self.completion = completion
     }
 }
