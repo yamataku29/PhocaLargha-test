@@ -97,11 +97,11 @@ class BaseView: UIView {
             baseViewFrame = CGRect(x: 0, y: 0, width: superViewSize.width/1.5,
                                    height: superViewSize.height/2.3)
         case .medium:
-            baseViewFrame = CGRect(x: 0, y: 0, width: superViewSize.width/1.5,
-                                   height: superViewSize.height/2)
-        case .large:
             baseViewFrame = CGRect(x: 0, y: 0, width: superViewSize.width/1.3,
                                    height: superViewSize.height/1.8)
+        case .large:
+            baseViewFrame = CGRect(x: 0, y: 0, width: superViewSize.width/1.2,
+                                   height: superViewSize.height/1.3)
         }
         self.init(frame: baseViewFrame)
         center = centerPosition

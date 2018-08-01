@@ -28,9 +28,8 @@ open class PopNavi: UIViewController, AppearAnimation, DimissAnimation {
         }
         if configureOption.shouldDisplayPageControl {
             if let presentingViewController = self.presentingViewController {
-                let largeBaseViewHeight = presentingViewController.view.bounds.height/1.5
                 pageControl.bounds.size = CGSize(width: 30, height: 15)
-                pageControl.center.y = UIScreen.main.bounds.midY + largeBaseViewHeight/2 + 20
+                pageControl.center.y = UIScreen.main.bounds.maxY - 50
                 pageControl.center.x = UIScreen.main.bounds.midX
                 pageControl.numberOfPages = contentViews.count
                 pageControl.currentPageIndicatorTintColor = configureOption.pageControlColor
