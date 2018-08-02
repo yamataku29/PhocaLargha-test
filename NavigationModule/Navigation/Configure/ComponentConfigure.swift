@@ -10,10 +10,10 @@ import Foundation
 import UIKit
 
 struct BaseViewComponent {
-    enum ViewType {
-        case large
-        case medium
+    enum ViewType: Int {
         case small
+        case medium
+        case large
     }
 
     var viewType: ViewType
@@ -57,20 +57,17 @@ struct TopComponent {
 
 struct FooterComponent {
     var buttonTitle: String?
-    var buttonColor: UIColor?
     var buttonTextColor: UIColor?
     var backgroundColor: UIColor
     var buttonTextFont: UIFont?
     var height: CGFloat
 
     init(buttonTitle: String? = nil,
-         buttonColor: UIColor? = .white,
          buttonTextColor: UIColor? = .black,
          backgroundColor: UIColor = .clear,
          buttonTextFont: UIFont? = UIFont.boldSystemFont(ofSize: 16),
          height: CGFloat = 50) {
         self.buttonTitle = buttonTitle
-        self.buttonColor = buttonColor
         self.buttonTextColor = buttonTextColor
         self.backgroundColor = backgroundColor
         self.buttonTextFont = buttonTextFont

@@ -91,7 +91,6 @@ class BaseView: UIView {
 
 class FirstBaseView: BaseView {}
 class LastBaseView: BaseView {}
-class TitleView: UIView {}
 
 class FooterView: UIView {
     override init(frame: CGRect) {
@@ -114,15 +113,14 @@ class FooterView: UIView {
         buttonView.bounds.size = CGSize(width: bounds.width*2/3, height: bounds.height*3/5)
         buttonView.center = CGPoint(x: bounds.width/2, y: bounds.height/2)
         buttonView.layer.cornerRadius = cornerRadius
-        buttonView.backgroundColor = component.buttonColor
 
         let titleLabel = UILabel()
         titleLabel.text = component.buttonTitle
         titleLabel.textColor = component.buttonTextColor
-        titleLabel.sizeToFit()
         titleLabel.font = component.buttonTextFont
         titleLabel.textAlignment = .center
         titleLabel.center = CGPoint(x: buttonView.bounds.width/2, y: buttonView.bounds.height/2)
+        titleLabel.bounds.size = buttonView.bounds.size
         buttonView.addSubview(titleLabel)
         addSubview(buttonView)
     }

@@ -61,7 +61,7 @@ open class PopNavi: UIViewController, AppearAnimation, DimissAnimation {
         generateScrollView()
         generateBaseView()
         if let backgroundView = backgroundView {
-            backgroundView.setGradientColor(type: configureOption.backgroundViewFradientType)
+            backgroundView.setGradientColor(type: configureOption.backgroundViewGradientType)
         }
     }
     func slideUp(duration: TimeInterval) {
@@ -79,7 +79,8 @@ open class PopNavi: UIViewController, AppearAnimation, DimissAnimation {
             guard let `self` = self else { return }
             self.scrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: false)
             self.slideUp(with: self.contentViews, backgroundView: self.backgroundView,
-                isBackgroundFadeIn: self.configureOption.isBackgroundFadeIn, duration: self.duration)
+                         backgroundAlpha: self.configureOption.backgroundAlpha,
+                         isBackgroundFadeIn: self.configureOption.isBackgroundFadeIn, duration: self.duration)
         })
     }
 }

@@ -17,7 +17,7 @@ struct PopNaviConfigureOption {
     var isBackgroundFadeIn: Bool
     var isDismissibleForTap: Bool
     var shouldDisplayPageControl: Bool
-    var backgroundViewFradientType: GradientStyle
+    var backgroundViewGradientType: GradientStyle
     var completion: (() -> ())?
 
     init(backgroundColor: UIColor = UIColor.black,
@@ -36,7 +36,7 @@ struct PopNaviConfigureOption {
         self.isBackgroundFadeIn = isBackgroundFadeIn
         self.isDismissibleForTap = isDismissibleForTap
         self.shouldDisplayPageControl = shouldDisplayPageControl
-        self.backgroundViewFradientType = backgroundViewFradientType
+        self.backgroundViewGradientType = backgroundViewFradientType
         self.completion = completion
     }
 }

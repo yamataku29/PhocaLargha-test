@@ -9,7 +9,8 @@
 import Foundation
 import UIKit
 
-enum GradientStyle {
+public enum GradientStyle: Int {
+    case normal
     case muddySoda
     case limeGreen
     case grapeSoda
@@ -20,7 +21,6 @@ enum GradientStyle {
     case peachGrape
     case lemonGrape
     case grapeAndMuscat
-    case normal
 }
 
 struct GradientStyleSheet {

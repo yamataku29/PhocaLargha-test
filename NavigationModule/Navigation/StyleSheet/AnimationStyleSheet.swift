@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 protocol AppearAnimation: class {
-    func slideUp(with dialogs: [BaseView], backgroundView: UIView?, isBackgroundFadeIn: Bool, duration: TimeInterval)
+    func slideUp(with dialogs: [BaseView], backgroundView: UIView?, backgroundAlpha: CGFloat, isBackgroundFadeIn: Bool, duration: TimeInterval)
 }
 
 protocol DimissAnimation:  class {
@@ -41,7 +41,7 @@ extension DimissAnimation where Self: UIViewController {
 }
 
 extension AppearAnimation where Self: UIViewController {
-    func slideUp(with dialogs: [BaseView], backgroundView: UIView?, isBackgroundFadeIn: Bool, duration: TimeInterval) {
+    func slideUp(with dialogs: [BaseView], backgroundView: UIView?, backgroundAlpha: CGFloat, isBackgroundFadeIn: Bool, duration: TimeInterval) {
         guard !dialogs.isEmpty else { return }
         dialogs.forEach { dialog in
             backgroundView?.alpha = 0
@@ -53,7 +53,7 @@ extension AppearAnimation where Self: UIViewController {
                            options: UIViewAnimationOptions.allowUserInteraction,
                            animations: {
                             if isBackgroundFadeIn {
-                                backgroundView?.alpha = 0.5
+                                backgroundView?.alpha = backgroundAlpha
                             }
                             dialog.center.y = UIScreen.main.bounds.midY
                             self.view.layoutIfNeeded()
