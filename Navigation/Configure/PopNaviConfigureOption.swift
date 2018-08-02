@@ -1,5 +1,5 @@
 //
-//  ConfigureOption.swift
+//  PopNaviConfigureOption.swift
 //  NavigationModule
 //
 //  Created by Yamada Taku on 2018/06/29.
@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-struct ConfigureOption {
+struct PopNaviConfigureOption {
     var backgroundColor: UIColor
     var backgroundAlpha: CGFloat
     var pageControlColor: UIColor
@@ -17,7 +17,8 @@ struct ConfigureOption {
     var isBackgroundFadeIn: Bool
     var isDismissibleForTap: Bool
     var shouldDisplayPageControl: Bool
-    var backgroundViewFradientType: GradientStyle
+    var backgroundViewGradientType: GradientStyle
+    var completion: (() -> ())?
 
     init(backgroundColor: UIColor = UIColor.black,
          backgroundAlpha: CGFloat = 0.5,
@@ -26,7 +27,8 @@ struct ConfigureOption {
          isBackgroundFadeIn: Bool = true,
          isDismissibleForTap: Bool = true,
          shouldDisplayPageControl: Bool = true,
-         backgroundViewFradientType: GradientStyle = .normal) {
+         backgroundViewFradientType: GradientStyle = .normal,
+         completion: (() -> ())? = nil) {
         self.backgroundColor = backgroundColor
         self.backgroundAlpha = backgroundAlpha
         self.pageControlColor = pageControlColor
@@ -34,6 +36,7 @@ struct ConfigureOption {
         self.isBackgroundFadeIn = isBackgroundFadeIn
         self.isDismissibleForTap = isDismissibleForTap
         self.shouldDisplayPageControl = shouldDisplayPageControl
-        self.backgroundViewFradientType = backgroundViewFradientType
+        self.backgroundViewGradientType = backgroundViewFradientType
+        self.completion = completion
     }
 }

@@ -9,7 +9,7 @@
 import UIKit
 
 open class PopNavi: UIViewController, AppearAnimation, DimissAnimation {
-    var configureOption = ConfigureOption()
+    var configureOption = PopNaviConfigureOption()
 
     private var contentViews: [BaseView] = []
     private var backgroundView: UIView?
@@ -27,10 +27,9 @@ open class PopNavi: UIViewController, AppearAnimation, DimissAnimation {
             scrollView.addGestureRecognizer(dismissGesture)
         }
         if configureOption.shouldDisplayPageControl {
-            if let presentingViewController = self.presentingViewController {
-                let largeBaseViewHeight = presentingViewController.view.bounds.height/1.5
+            if presentingViewController != nil {
                 pageControl.bounds.size = CGSize(width: 30, height: 15)
-                pageControl.center.y = UIScreen.main.bounds.midY + largeBaseViewHeight/2 + 20
+                pageControl.center.y = UIScreen.main.bounds.maxY - 50
                 pageControl.center.x = UIScreen.main.bounds.midX
                 pageControl.numberOfPages = contentViews.count
                 pageControl.currentPageIndicatorTintColor = configureOption.pageControlColor
@@ -62,7 +61,7 @@ open class PopNavi: UIViewController, AppearAnimation, DimissAnimation {
         generateScrollView()
         generateBaseView()
         if let backgroundView = backgroundView {
-            backgroundView.setGradientColor(type: configureOption.backgroundViewFradientType)
+            backgroundView.setGradientColor(type: configureOption.backgroundViewGradientType)
         }
     }
     func slideUp(duration: TimeInterval) {
@@ -80,7 +79,8 @@ open class PopNavi: UIViewController, AppearAnimation, DimissAnimation {
             guard let `self` = self else { return }
             self.scrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: false)
             self.slideUp(with: self.contentViews, backgroundView: self.backgroundView,
-                isBackgroundFadeIn: self.configureOption.isBackgroundFadeIn, duration: self.duration)
+                         backgroundAlpha: self.configureOption.backgroundAlpha,
+                         isBackgroundFadeIn: self.configureOption.isBackgroundFadeIn, duration: self.duration)
         })
     }
 }
@@ -143,7 +143,7 @@ private extension PopNavi {
 // MARK: - Delegate extensions
 extension PopNavi: DimissAnimationDelegate {
     func endDismissAnimation() {
-        dismiss(animated: false, completion: nil)
+        dismiss(animated: false, completion: configureOption.completion)
     }
 }
 

@@ -17,10 +17,10 @@
 		F002C47A20E49F5F00241450 /* PopNavi.swift in Sources */ = {isa = PBXBuildFile; fileRef = F002C47920E49F5F00241450 /* PopNavi.swift */; };
 		F0984B8A20EDB2CA0022375C /* GradientStyleSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0984B8920EDB2CA0022375C /* GradientStyleSheet.swift */; };
 		F09E8E4B20E4BA98008C6D79 /* AnimationStyleSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = F09E8E4A20E4BA98008C6D79 /* AnimationStyleSheet.swift */; };
-		F09E8E4D20E4BE31008C6D79 /* AccessibleProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = F09E8E4C20E4BE31008C6D79 /* AccessibleProperty.swift */; };
 		F09E8E4F20E6202D008C6D79 /* PagingScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F09E8E4E20E6202D008C6D79 /* PagingScrollView.swift */; };
 		F09E8E5120E62068008C6D79 /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F09E8E5020E62068008C6D79 /* BaseView.swift */; };
-		F09E8E5320E622AB008C6D79 /* ConfigureOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = F09E8E5220E622AB008C6D79 /* ConfigureOption.swift */; };
+		F09E8E5320E622AB008C6D79 /* PopNaviConfigureOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = F09E8E5220E622AB008C6D79 /* PopNaviConfigureOption.swift */; };
+		F0B3186021114DCE0034D6BD /* ComponentConfigure.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0B3185F21114DCE0034D6BD /* ComponentConfigure.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,10 +57,10 @@
 		F002C47920E49F5F00241450 /* PopNavi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopNavi.swift; sourceTree = "<group>"; };
 		F0984B8920EDB2CA0022375C /* GradientStyleSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientStyleSheet.swift; sourceTree = "<group>"; };
 		F09E8E4A20E4BA98008C6D79 /* AnimationStyleSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationStyleSheet.swift; sourceTree = "<group>"; };
-		F09E8E4C20E4BE31008C6D79 /* AccessibleProperty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibleProperty.swift; sourceTree = "<group>"; };
 		F09E8E4E20E6202D008C6D79 /* PagingScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagingScrollView.swift; sourceTree = "<group>"; };
 		F09E8E5020E62068008C6D79 /* BaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseView.swift; sourceTree = "<group>"; };
-		F09E8E5220E622AB008C6D79 /* ConfigureOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigureOption.swift; sourceTree = "<group>"; };
+		F09E8E5220E622AB008C6D79 /* PopNaviConfigureOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopNaviConfigureOption.swift; sourceTree = "<group>"; };
+		F0B3185F21114DCE0034D6BD /* ComponentConfigure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentConfigure.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +92,7 @@
 			isa = PBXGroup;
 			children = (
 				F002C44920E49E6E00241450 /* NavigationModule */,
+				F002C47820E49E9C00241450 /* Navigation */,
 				F002C45E20E49E6F00241450 /* NavigationModuleTests */,
 				F002C46920E49E6F00241450 /* NavigationModuleUITests */,
 				F002C44820E49E6E00241450 /* Products */,
@@ -111,7 +112,6 @@
 		F002C44920E49E6E00241450 /* NavigationModule */ = {
 			isa = PBXGroup;
 			children = (
-				F002C47820E49E9C00241450 /* Navigation */,
 				F002C44A20E49E6F00241450 /* AppDelegate.swift */,
 				F002C44C20E49E6F00241450 /* ViewController.swift */,
 				F002C44E20E49E6F00241450 /* Main.storyboard */,
@@ -144,14 +144,38 @@
 			isa = PBXGroup;
 			children = (
 				F002C47920E49F5F00241450 /* PopNavi.swift */,
-				F09E8E4A20E4BA98008C6D79 /* AnimationStyleSheet.swift */,
-				F09E8E4C20E4BE31008C6D79 /* AccessibleProperty.swift */,
-				F09E8E4E20E6202D008C6D79 /* PagingScrollView.swift */,
-				F09E8E5020E62068008C6D79 /* BaseView.swift */,
-				F09E8E5220E622AB008C6D79 /* ConfigureOption.swift */,
-				F0984B8920EDB2CA0022375C /* GradientStyleSheet.swift */,
+				F0B3186221114E5D0034D6BD /* Views */,
+				F0B3186121114E420034D6BD /* StyleSheet */,
+				F0B3185E21114D240034D6BD /* Configure */,
 			);
 			path = Navigation;
+			sourceTree = "<group>";
+		};
+		F0B3185E21114D240034D6BD /* Configure */ = {
+			isa = PBXGroup;
+			children = (
+				F09E8E5220E622AB008C6D79 /* PopNaviConfigureOption.swift */,
+				F0B3185F21114DCE0034D6BD /* ComponentConfigure.swift */,
+			);
+			path = Configure;
+			sourceTree = "<group>";
+		};
+		F0B3186121114E420034D6BD /* StyleSheet */ = {
+			isa = PBXGroup;
+			children = (
+				F09E8E4A20E4BA98008C6D79 /* AnimationStyleSheet.swift */,
+				F0984B8920EDB2CA0022375C /* GradientStyleSheet.swift */,
+			);
+			path = StyleSheet;
+			sourceTree = "<group>";
+		};
+		F0B3186221114E5D0034D6BD /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				F09E8E5020E62068008C6D79 /* BaseView.swift */,
+				F09E8E4E20E6202D008C6D79 /* PagingScrollView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -288,14 +312,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F09E8E4D20E4BE31008C6D79 /* AccessibleProperty.swift in Sources */,
 				F09E8E4F20E6202D008C6D79 /* PagingScrollView.swift in Sources */,
 				F002C47A20E49F5F00241450 /* PopNavi.swift in Sources */,
-				F09E8E5320E622AB008C6D79 /* ConfigureOption.swift in Sources */,
+				F09E8E5320E622AB008C6D79 /* PopNaviConfigureOption.swift in Sources */,
 				F09E8E4B20E4BA98008C6D79 /* AnimationStyleSheet.swift in Sources */,
 				F09E8E5120E62068008C6D79 /* BaseView.swift in Sources */,
 				F002C44D20E49E6F00241450 /* ViewController.swift in Sources */,
 				F0984B8A20EDB2CA0022375C /* GradientStyleSheet.swift in Sources */,
+				F0B3186021114DCE0034D6BD /* ComponentConfigure.swift in Sources */,
 				F002C44B20E49E6F00241450 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

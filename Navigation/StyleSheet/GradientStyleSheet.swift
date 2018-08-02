@@ -9,7 +9,8 @@
 import Foundation
 import UIKit
 
-enum GradientStyle {
+public enum GradientStyle: Int {
+    case normal
     case muddySoda
     case limeGreen
     case grapeSoda
@@ -20,11 +21,10 @@ enum GradientStyle {
     case peachGrape
     case lemonGrape
     case grapeAndMuscat
-    case normal
 }
 
-struct GradientStyleSheet {
-    private var frame: CGRect
+private struct GradientStyleSheet {
+    var frame: CGRect
     init(frame: CGRect) {
         self.frame = frame
     }
@@ -58,9 +58,7 @@ struct GradientStyleSheet {
     var grapeAndMuscat: CAGradientLayer {
         return getGradientLayer(colorSet: GradientStyleList.grapeAndMuscat, frame: frame)
     }
-}
 
-private extension GradientStyleSheet {
     func getGradientLayer(colorSet: GradientStyleList.ColorSet, frame: CGRect) -> CAGradientLayer {
         let gradientLayer = CAGradientLayer()
         let gradientColorSet = [colorSet.top.cgColor, colorSet.bottom.cgColor]
