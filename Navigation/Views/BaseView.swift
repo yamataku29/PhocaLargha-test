@@ -50,10 +50,10 @@ class BaseView: UIView {
                           width: bounds.width, gesture: gesture)
         }
     }
-    weak var delegate: UITextFieldDelegate?
-    func setMessageTextView() {
+    private weak var delegate: UITextFieldDelegate?
+}
 
-    }
+private extension BaseView {
     func setTopView(text: String, textColor: UIColor, font: UIFont, height: CGFloat) {
         let sidePadding: CGFloat = 30
         let titleLabel = UILabel()
@@ -92,7 +92,7 @@ class BaseView: UIView {
 class FirstBaseView: BaseView {}
 class LastBaseView: BaseView {}
 
-class FooterView: UIView {
+fileprivate class FooterView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
     }

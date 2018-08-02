@@ -92,6 +92,7 @@
 			isa = PBXGroup;
 			children = (
 				F002C44920E49E6E00241450 /* NavigationModule */,
+				F002C47820E49E9C00241450 /* Navigation */,
 				F002C45E20E49E6F00241450 /* NavigationModuleTests */,
 				F002C46920E49E6F00241450 /* NavigationModuleUITests */,
 				F002C44820E49E6E00241450 /* Products */,
@@ -111,7 +112,6 @@
 		F002C44920E49E6E00241450 /* NavigationModule */ = {
 			isa = PBXGroup;
 			children = (
-				F002C47820E49E9C00241450 /* Navigation */,
 				F002C44A20E49E6F00241450 /* AppDelegate.swift */,
 				F002C44C20E49E6F00241450 /* ViewController.swift */,
 				F002C44E20E49E6F00241450 /* Main.storyboard */,

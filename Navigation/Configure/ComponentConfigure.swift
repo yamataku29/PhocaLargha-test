@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-struct BaseViewComponent {
+public struct BaseViewComponent {
     enum ViewType: Int {
         case small
         case medium
@@ -38,7 +38,7 @@ struct BaseViewComponent {
     }
 }
 
-struct TopComponent {
+public struct TopComponent {
     var text: String
     var textColor: UIColor
     var font: UIFont
@@ -55,7 +55,7 @@ struct TopComponent {
     }
 }
 
-struct FooterComponent {
+public struct FooterComponent {
     var buttonTitle: String?
     var buttonTextColor: UIColor?
     var backgroundColor: UIColor
